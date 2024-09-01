@@ -1,4 +1,5 @@
 var user = {};
+var count = 0;
 // função para colorir em amarelo as células da tabela
 function paintDataBackgroundYellow(id) {
     console.log("painting data cells yellow...");
@@ -80,8 +81,8 @@ class User {
 };
 // função para criação de um objeto do tipo usuário / criação da lista ligada
 function createUser(name, cpf) {
-    var newUser = new User(name, cpf);
     count++;
+    var newUser = new User(name, cpf);
     return newUser;
 };
 // função para exibir o usuário no topo da fila
@@ -95,7 +96,8 @@ function removeTopUser(topUser) {
     return user;
 };
 // função para adição de usuários na fila
-function addNextUser(name, cpf){
+function addNextUser(topUser, name, cpf){
+    count ++;
     var start = user;
     var newUser = createUser(name, cpf)
     while (start.next != null) {
@@ -110,3 +112,8 @@ function waitForUser(buttonId) {
     console.log('waiting for user...');
     paintDataBackgroundYellow(buttonId);
 };
+var user = createUser('Camilo', '123');
+addNextUser(user, 'Medeiros', '456');
+addNextUser(user, 'Santos', '789');
+console.log(user);
+console.log(count);
