@@ -5,19 +5,19 @@ function paintDataBackgroundYellow(id) {
     for (let i = 0; i < dataCells.length; i++) {
         dataCells[i].style.backgroundColor = "Yellow";        
     }
-}
+};
 // função para exibir formulário após clicar no botão "Adicionar primeiro usuário"
 function showForm() {
     console.log("showing form...");
     document.getElementById("form").style.display = "block";
     document.getElementById("firstButton").style.display = "none";
-}
+};
 // função para exibir tabela após inserção do primeiro usuário
 function showTable() {
     console.log("showing table...");
     document.getElementById("table").style.display = "block";
     document.getElementById("form").style.display = "none";
-}
+};
 // função para atualizar tabela após operações na fila
 function refreshTable(topUser) {
     console.log("refreshing table...")
@@ -25,9 +25,19 @@ function refreshTable(topUser) {
         addUserToTable(topUser);
         topUser = topUser.next;
     }
-}
+};
+// função que adiciona primeiro usuário
+function addFirstUser() {
+    console.log("adding first user...")
+    var name = document.getElementById("nameInput").value;
+    var cpf = document.getElementById("cpfInput").value;
+    var user = createUser(name, cpf);
+    addUserToTable(user);
+    showTable();
+};
 // função que adiciona usuário à tabela
 function addUserToTable(user) {
+    console.log("adding user to table...")
     var table = document.getElementById("table");
     var tableRow = document.createElement("tr");
     var userInfo = [user.name, user.cpf, user.status];
@@ -55,4 +65,4 @@ function addUserToTable(user) {
     tableRow.appendChild(firstButton);
     tableRow.appendChild(secondButton);
     table.appendChild(tableRow);
-}
+};
