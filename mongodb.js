@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const url = "";
+const url = "mongodb+srv://arthurvinice:mongofila@db1.mqfmprk.mongodb.net/?retryWrites=true&w=majority&appName=DB1";
 const Users = require("./models/users");
 const options = {
     useNewUrlParser: true,
