@@ -5,6 +5,7 @@ const connection = mysql.createConnection({
     password: "ifrn.cn",
     database: "fila_atendimento"
 });
+// função para estabelecer uma conexão com o banco de dados
 function connect(){
     connection.connect((error) => {
         if(error){
@@ -16,6 +17,7 @@ function connect(){
         }
     })
 };
+// função para encerrar uma conexão com o banco de dados
 function disconnect(){
     connection.end((error) => {
         if(error){
@@ -27,6 +29,43 @@ function disconnect(){
         }
     })
 };
+// função para inserção de um atendimento no banco de dados
+async function insertAppointment(professionalId, appointmentDate, appointmentStartTime, appointmentEndTime){
+    try {
+        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(medico_id, data_atendimento, horario_inicio, horario_fim) VALUES("${professionalId}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
+        return queryResult;
+    } 
+    catch (error) {
+        console.error(`Erro ao inserir a ocorrência: ${error.stack}`);
+        throw error;
+    }
+};
+// função para atualização de um atendimento no banco de dados
+async function updateAppointment(appointmentId, professionalId, appointmentDate, appointmentStartTime, appointmentEndTime){
+    try {
+        let setClause = [];
+        if (professionalId != ''){
+            setClause.push(`medico_id = ${professionalId}`);
+        }
+        if (appointmentDate != ''){
+            setClause.push(`data_consulta = ${appointmentDate}`);
+        }
+        if (appointmentStartTime != ''){
+            setClause.push(`horario_inicio = ${appointmentStartTime}`);            
+        }
+        if (appointmentEndTime){
+            setClause.push(`horario_fim = ${appointmentEndTime}`);
+        }
+        let setClauseString = setClause.join(", ")
+        const [queryResult] = await connection.promise().query(`UPDATE atendimento SET ${setClauseString} WHERE atendimento_id = ${appointmentId}`);
+        return queryResult;
+    }
+    catch (error){
+        console.error(`Erro ao atualizar a ocorrência: ${error.stack}`);
+        throw error;
+    }
+};
+/*
 async function consultUser(){
     try {
         const [result] = await connection.promise().query('SELECT * FROM users');
@@ -62,4 +101,5 @@ async function searchUserByCPF(cpf){
         return null;
     }
 };
-module.exports = {connect, disconnect, consultUser, insertUser};
+*/
+module.exports = {connect, disconnect, insertAppointment, updateAppointment /*, consultUser, insertUser*/};
