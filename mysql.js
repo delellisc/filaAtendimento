@@ -65,6 +65,17 @@ async function updateAppointment(appointmentId, professionalId, appointmentDate,
         throw error;
     }
 };
+// retorna id do médico a partir do nome
+async function returnsProfessionalId(professionalName){
+    try {
+        const professionalId = await connection.promise().query(`SELECT medico_id FROM profissional WHERE nome ILIKE "${professionalName}";`);
+        return professionalId;
+    }
+    catch (error) {
+        console.error(`Erro ao adquirir id do profissional: ${error.stack}`);
+        throw error;
+    }
+}
 /*
 async function consultUser(){
     try {
