@@ -32,7 +32,7 @@ function disconnect(){
 // função para inserção de um atendimento no banco de dados
 async function insertAppointment(professionalId, appointmentDate, appointmentStartTime, appointmentEndTime){
     try {
-        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(medico_id, data_atendimento, horario_inicio, horario_fim) VALUES("${professionalId}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
+        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(profissional_id, data_atendimento, horario_inicio, horario_fim) VALUES("${professionalId}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
         return queryResult;
     } 
     catch (error) {
@@ -45,7 +45,7 @@ async function updateAppointment(appointmentId, professionalId, appointmentDate,
     try {
         let setClause = [];
         if (professionalId != ''){
-            setClause.push(`medico_id = ${professionalId}`);
+            setClause.push(`profissional_id = ${professionalId}`);
         }
         if (appointmentDate != ''){
             setClause.push(`data_consulta = ${appointmentDate}`);
@@ -68,7 +68,7 @@ async function updateAppointment(appointmentId, professionalId, appointmentDate,
 // retorna id do médico a partir do nome
 async function returnsProfessionalId(professionalName){
     try {
-        const professionalId = await connection.promise().query(`SELECT medico_id FROM profissional WHERE nome ILIKE "${professionalName}";`);
+        const professionalId = await connection.promise().query(`SELECT profissional_id FROM profissional WHERE nome ILIKE "${professionalName}";`);
         return professionalId;
     }
     catch (error) {
