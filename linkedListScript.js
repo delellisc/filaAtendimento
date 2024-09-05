@@ -27,7 +27,7 @@ function removeTopUser(topUser) {
 // função para adição de usuários na fila
 function addNextUser(topUser, name, cpf){
     count ++;
-    var start = user;
+    var start = topUser; 
     var newUser = createUser(name, cpf)
     while (start.next != null) {
         start = start.next;
