@@ -36,7 +36,6 @@ function addNextUser(topUser, name, cpf){
     }
     newUser.next = start.next;
     start.next = newUser;
-    console.log(topUser);
     return topUser;
 };
 // função de espera
@@ -49,19 +48,21 @@ function waitForUser(topUser, userId) {
         }
         start = start.next;
     }
+    // reorderUsers(topUser);
     /*
     console.log('waiting for user...');
     paintDataBackgroundYellow(buttonId);
     */
 };
 // função para reordenar a lista ligada
+// to-do: começar a função
 function reorderUsers(topUser){
-    var start = topUser;
-}
+    
+};
 // to-do: rodar essa linha quando a fila for inicializada
 teste = createUser('Camilo', '123');
 // to-do: rodar as linhas abaixo quando adicionar os demais pacientes
 teste = addNextUser(teste, 'de Lellis', '456');
 teste = addNextUser(teste, 'Medeiros', '789');
-waitForUser(teste, 2);
+teste = waitForUser(teste, 2);
 console.log(teste);
