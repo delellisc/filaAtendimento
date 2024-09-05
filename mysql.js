@@ -57,7 +57,7 @@ async function updateAppointment(appointmentId, professionalId, appointmentDate,
             setClause.push(`horario_fim = ${appointmentEndTime}`);
         }
         let setClauseString = setClause.join(", ")
-        const [queryResult] = await connection.promise().query(`UPDATE atendimento SET ${setClauseString} WHERE atendimento_id = ${appointmentId}`);
+        const [queryResult] = await connection.promise().query(`UPDATE atendimento SET ${setClauseString} WHERE atendimento_id = ${appointmentId};`);
         return queryResult;
     }
     catch (error){
@@ -76,41 +76,36 @@ async function returnsProfessionalId(professionalName){
         throw error;
     }
 }
-/*
-async function consultUser(){
+// função para inserir uma consulta no banco de dados
+// obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
+async function inserirConsulta(profissionalId, pacienteId, dataConsulta, horarioInicio, horarioFim, descricao){
     try {
-        const [result] = await connection.promise().query('SELECT * FROM users');
+        const [result] = await connection.promise().query(`INSERT INTO consulta(profissional_id, paciente_id, data_consulta, horario_inicio, horario_fim, descricao) VALUES("${profissionalId}", "${pacienteId}", "${dataConsulta}", "${horarioInicio}", "${horarioFim}", "${descricao}");`);
         return result;
     }
     catch (error) {
-        console.error(`Erro ao consultar a tabela: ${error.stack}`);
-        throw error;
+        console.error(`Erro ao inserir uma ocorrência na tabela consulta: ${error.stack}`)
     }
-};
-async function insertUser(nome, cpf){
+}
+// função para inserir um paciente no banco de dados
+// obs.: o paciente deve ser inserido após a conclusão de uma consulta
+async function insertPatient(name, cpf){
     try {
-        const [result] = await connection.promise().query(`INSERT INTO user(nome, cpf) VALUES("${nome}", "${cpf}");`)
+        const [result] = await connection.promise().query(`INSERT INTO paciente(nome, cpf) VALUES("${name}", "${cpf}");`);
         return result;
     }
     catch (error) {
-        console.error(`Erro ao inserir um usuário: ${error.stack}`);
-        throw error;
+        console.error(`Erro ao inserir uma ocorrência na tabela paciente: ${error.stack}`)
     }
 };
-async function searchUserByCPF(cpf){
+// função que retorna o id do paciente
+async function returnsPatientId(patientName){
     try {
-        const result = await connection.promise().query(`SELECT * FROM users WHERE cpf = "${cpf}"`);
-        if(result){
-            return result.nome, result.cpf;
-        }
-        else{
-            return null;
-        }
+        const [result] = await connection.promise().query(`SELECT paciente_id FROM paciente WHERE nome ILIKE "${patientName}"`);
+        return result;
     }
     catch (error) {
-        console.error(`Não foi possível consultar o usuário: ${error.stack}`);
-        return null;
+        console.error(`Não foi possível retornar o id do paciente: ${error.stack}`);
     }
 };
-*/
 module.exports = {connect, disconnect, insertAppointment, updateAppointment /*, consultUser, insertUser*/};
