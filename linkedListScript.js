@@ -10,6 +10,7 @@ class User {
     };
 };
 // criação do objeto fila
+// to-do: criação de uma fila de prioridade alternando entre pessoas com e sem prioridade de atendimento
 class Queue {
     constructor(){
         this.start = null;
@@ -93,9 +94,12 @@ class Queue {
         this.swapUserWithTheNext(tmp.id);
     };
 };
+// testes com a estrutura de dados criada acima
+/*
 teste = new Queue();
 teste.addNextUser('Camilo', '123');
 teste.addNextUser('de Lellis', '789');
 teste.addNextUser('Medeiros', '789');
 teste.waitForUser(2);
 console.log(teste);
+*/
