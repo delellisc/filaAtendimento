@@ -12,13 +12,18 @@ const options = {
 */
 // função que estabelece conexão com mongo
 function connectMongo(){
-    mongoose.connect(url)
-    .then(() => {
-        console.log("Conexão com o MongoDB estabelecida com sucesso!");
-    })
-    .catch((error) => {
-        console.log(`Erro na tentativa de conexão: ${error.stack}`);
-    })
+    try {
+        mongoose.connect(url)
+        .then(() => {
+            console.log("Conexão com o MongoDB estabelecida com sucesso!");
+        })
+        .catch((error) => {
+            console.log(`Erro na tentativa de conexão: ${error.stack}`);
+        })    
+    }
+    catch (error) {
+        console.error(`Não foi possível estabelecer conexão com o Mongo: ${error.stack}`)
+    };
 };
 // função para inserir o usuário admin
 // obs.: é pra ser chamada apenas uma vez
