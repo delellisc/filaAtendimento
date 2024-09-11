@@ -129,7 +129,6 @@ teste.addNextUser('Santos', '321', 0);
 teste.addNextUser('Rosendo', '654', 1);
 //teste.waitForUser(2);
 teste.printQueue();
-console.log(teste);
 /*
 let camilo = teste.removeTopUser();
 console.log(camilo);

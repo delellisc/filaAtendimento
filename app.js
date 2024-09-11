@@ -75,7 +75,7 @@ let testJson =  {
 mongodb.connectMongo();
 // mongodb.insertAdmin('admin', '123');
 // mongodb.insertQueue(testJson);
-mongodb.returnQueue();
+mongodb.modifyQueue(testJson);
 // mysql.updateAppointment(1, 6, '05-09-2024', '10:30', '12:00');
 
 module.exports = app;
