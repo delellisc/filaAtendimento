@@ -78,4 +78,5 @@ async function returnQueue(){
         console.error(`Erro ao retornar fila: ${error.stack}`);    
     }
 };
+// exportação das funções 
 module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, insertQueue};
