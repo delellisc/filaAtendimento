@@ -32,9 +32,11 @@ class Queue {
         }
         // adição caso possua prioridade
         // to-do: mudar condicional
-        // to-do: escrever algoritmo de inserção
+        // to-do: escrever algoritmo de inserção com prioridade
+        /*
         else if (priority != null){
         }
+        */
         // adição ao fim da lista
         else {
             this.end.next = newUser;
@@ -127,8 +129,10 @@ teste.addNextUser('Santos', '321', 0);
 teste.addNextUser('Rosendo', '654', 1);
 //teste.waitForUser(2);
 teste.printQueue();
+console.log(teste);
 /*
 let camilo = teste.removeTopUser();
 console.log(camilo);
 teste.printQueue();
 */
+module.exports = {};
