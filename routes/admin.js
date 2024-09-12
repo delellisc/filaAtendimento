@@ -10,8 +10,7 @@ router.get('/', function(req, res, next) {
 });
 /* adiciona paciente à fila com método POST */
 // to-do: terminar a função
-// to-do: tentar utilzar os métodos da classe "Queue"
-// no objeto json retornado pelo mongodb
+// to-do: tratar corretamente o fluxo quando o mongodb retornar undefined
 router.post('/newPatient', async function(req, res){
     const {nome, cpf} = req.body;
     if (nome == '' || cpf == ''){
@@ -19,13 +18,19 @@ router.post('/newPatient', async function(req, res){
     }
     else{
       let objetoFila = await mongodb.returnQueue();
-      fila = objetoFila[0].queueHead;
-      if (fila.length > 0){
-        console.log(fila);
+      objetoFila = objetoFila[0].queueHead;
+      let fila = new linkedList.Queue(); 
+      if (objetoFila.length > 0){
+        fila.start = objetoFila.start
+        fila.end = objetoFila.end
+        fila.length = objetoFila.length
+        fila.idCounter = objetoFila.idCounter;
+        fila.addNextUser(nome, cpf, 0);
+        fila.printQueue();
+        mongodb.modifyQueue(fila);
         res.send('Paciente adicionado');
       }
       else{
-        fila = new Queue();
         fila.addNextUser(nome, cpf, 0);
         mongodb.insertQueue(fila);
         res.send('Fila criada')

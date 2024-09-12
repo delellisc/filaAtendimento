@@ -130,8 +130,9 @@ teste.addNextUser('Santos', '321', 0);
 teste.addNextUser('Rosendo', '654', 1);
 //teste.waitForUser(2);
 teste.printQueue();
-let camilo = teste.removeTopUser();
-console.log(camilo);
-teste.printQueue();
+//let camilo = teste.removeTopUser();
+//console.log(camilo);
+//teste.printQueue();
+console.log(teste);
 */
 module.exports = {Queue};
