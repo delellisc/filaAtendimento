@@ -22,7 +22,7 @@ function connectMongo(){
         })    
     }
     catch (error) {
-        console.error(`Não foi possível estabelecer conexão com o Mongo: ${error.stack}`)
+        console.error(`MONGO-ERRO: ${error.stack}`);
     };
 };
 // função para inserir o usuário admin
@@ -33,7 +33,7 @@ async function insertAdmin(username, password){
         await admin.save();
     }
     catch (error) {
-        console.error(`Erro ao inserir admin: ${error.stack}`);
+        console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
 // função para inserir fila no mongodb
@@ -44,7 +44,7 @@ async function insertQueue(topPatient){
         await teste.save();
     } 
     catch (error) {
-        console.error(`Erro ao inserir fila: ${error.stack}`);
+        console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
 // função para modificar fila
@@ -60,7 +60,7 @@ async function modifyQueue(topPatient){
         };
     } 
     catch (error) {
-        console.error(`Erro ao atualizar fila: ${error.stack}`)
+        console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
 // função de teste para retorno da fila
@@ -76,8 +76,18 @@ async function returnQueue(){
         }
     } 
     catch (error) {
-        console.error(`Erro ao retornar fila: ${error.stack}`);    
+        console.error(`MONGO-ERRO: ${error.stack}`);
+    }
+};
+// função para deletar fila
+async function deleteQueue(){
+    try {
+        // deleta primeiro documento da coleção
+        await Queue.deleteOne({});
+    }
+    catch (error) {
+        console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
 // exportação das funções 
-module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, insertQueue};
+module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, insertQueue, deleteQueue};

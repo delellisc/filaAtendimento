@@ -1,12 +1,11 @@
 // modelo para criação de objetos do tipo usuário
 // todas as operações serão feitas a partir da "cabeça" da lista ligada
 class User {
-    constructor(name, cpf, id, priority) {
+    constructor(name, cpf, id) {
         this.name = name;
         this.cpf = cpf;
         this.id = id;
         this.status = 'Ok';
-        this.priority = priority;
         this.next = null;
     };
 };
@@ -22,7 +21,7 @@ class Queue {
     // método para adição de usuários na fila
     // deve ser utilizado para adicionar um usuário na fila
     addNextUser(name, cpf, priority){
-        const newUser = new User(name, cpf, this.idCounter, priority);
+        const newUser = new User(name, cpf, this.idCounter);
         // criação da lista
         if (this.start == null) {
             this.start = newUser;
@@ -105,20 +104,20 @@ class Queue {
     printQueue(){
         let start = this.start;
         while (start.next != null){
-            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Priority: ${start.priority}`);
+            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id}`);
             start = start.next;
         };
-        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Priority: ${start.priority}`);
+        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id}`);
     }
 };
 /*
 // testes com a estrutura de dados criada acima
 let teste = new Queue();
-teste.addNextUser('Camilo', '123', 0);
-teste.addNextUser('de Lellis', '789', 0);
-teste.addNextUser('Medeiros', '789', 1);
-teste.addNextUser('Santos', '321', 0);
-teste.addNextUser('Rosendo', '654', 1);
+teste.addNextUser('Camilo', '123');
+teste.addNextUser('de Lellis', '789');
+teste.addNextUser('Medeiros', '789');
+teste.addNextUser('Santos', '321');
+teste.addNextUser('Rosendo', '654');
 //teste.waitForUser(2);
 teste.printQueue();
 //let camilo = teste.removeTopUser();
