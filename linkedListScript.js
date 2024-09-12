@@ -120,6 +120,7 @@ class Queue {
         console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Priority: ${start.priority}`);
     }
 };
+/*
 // testes com a estrutura de dados criada acima
 let teste = new Queue();
 teste.addNextUser('Camilo', '123', 0);
@@ -129,9 +130,8 @@ teste.addNextUser('Santos', '321', 0);
 teste.addNextUser('Rosendo', '654', 1);
 //teste.waitForUser(2);
 teste.printQueue();
-/*
 let camilo = teste.removeTopUser();
 console.log(camilo);
 teste.printQueue();
 */
-module.exports = {};
+module.exports = {Queue};

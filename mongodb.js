@@ -68,7 +68,8 @@ async function returnQueue(){
     try {
         const query = await Queue.find();
         if (query.length > 0){
-            console.log(query[0]);
+            //console.log(query[0]);
+            return query;
         }
         else{
             console.log('tem nada aqui nao rapaz')
