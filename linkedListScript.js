@@ -1,5 +1,6 @@
 // modelo para criação de objetos do tipo usuário
 // todas as operações serão feitas a partir da "cabeça" da lista ligada
+// to-do: adicionar posição atual na lista como uma informação do objeto User ?
 class User {
     constructor(name, cpf, id) {
         this.name = name;
@@ -10,7 +11,6 @@ class User {
     };
 };
 // criação do objeto fila
-// to-do: criação de uma fila de prioridade alternando entre pessoas com e sem prioridade de atendimento
 class Queue {
     constructor(){
         this.start = null;
@@ -68,7 +68,7 @@ class Queue {
         }
         let tmp = this.start;
         let tmp2 = null;
-        while (tmp.next != null && tmp.id !== userId){
+        while (tmp.next != null && tmp.id !== userId){        this.id = id;
             tmp2 = tmp;
             tmp = tmp.next;
         }
