@@ -21,8 +21,6 @@ class Queue {
     };
     // método para adição de usuários na fila
     // deve ser utilizado para adicionar um usuário na fila
-    // caso a prioridade seja 1, o usuário deve ser inserido entre dois usuário com prioridade 0
-    // to-do: testar possíveis erros
     addNextUser(name, cpf, priority){
         const newUser = new User(name, cpf, this.idCounter, priority);
         // criação da lista
@@ -30,15 +28,8 @@ class Queue {
             this.start = newUser;
             this.end = newUser;
         }
-        // adição caso possua prioridade
-        // to-do: mudar condicional
-        // to-do: escrever algoritmo de inserção com prioridade
-        /*
-        else if (priority != null){
-        }
-        */
-        // adição ao fim da lista
-        else {
+        // adição no final da lista
+        if (this.end != null) {
             this.end.next = newUser;
             this.end = newUser;
         }
