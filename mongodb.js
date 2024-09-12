@@ -22,7 +22,7 @@ function connectMongo(){
         })    
     }
     catch (error) {
-        console.error(`MONGO-ERRO: ${error.stack}`);
+        console.error(`MONGO-ERRO: (CONNECT) ${error.stack}`);
     };
 };
 // função para inserir o usuário admin
@@ -33,18 +33,18 @@ async function insertAdmin(username, password){
         await admin.save();
     }
     catch (error) {
-        console.error(`MONGO-ERRO: ${error.stack}`);
+        console.error(`MONGO-ERRO: (INSERT ADMIN) ${error.stack}`);
     }
 };
 // função para inserir fila no mongodb
 // to-do: alterar o primeiro registro da fila toda vez que alguma alteração for feita
 async function insertQueue(topPatient){
     try {
-        const teste = new Queue({ queueHead: topPatient });
-        await teste.save();
+        const fila = new Queue({ queueHead: topPatient });
+        await fila.save();
     } 
     catch (error) {
-        console.error(`MONGO-ERRO: ${error.stack}`);
+        console.error(`MONGO-ERRO: (INSERT QUEUE) ${error.stack}`);
     }
 };
 // função para modificar fila
@@ -60,23 +60,17 @@ async function modifyQueue(topPatient){
         };
     } 
     catch (error) {
-        console.error(`MONGO-ERRO: ${error.stack}`);
+        console.error(`MONGO-ERRO: (MODIFY QUEUE) ${error.stack}`);
     }
 };
 // função de teste para retorno da fila
 async function returnQueue(){
     try {
         const query = await Queue.find();
-        if (query.length > 0){
-            //console.log(query[0]);
-            return query;
-        }
-        else{
-            console.log('tem nada aqui nao rapaz')
-        }
+        return query;
     } 
     catch (error) {
-        console.error(`MONGO-ERRO: ${error.stack}`);
+        console.error(`MONGO-ERRO: (RETURN QUEUE) ${error.stack}`);
     }
 };
 // função para deletar fila
@@ -86,7 +80,7 @@ async function deleteQueue(){
         await Queue.deleteOne({});
     }
     catch (error) {
-        console.error(`MONGO-ERRO: ${error.stack}`);
+        console.error(`MONGO-ERRO: (DELETE QUEUE) ${error.stack}`);
     }
 };
 // exportação das funções 

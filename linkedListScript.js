@@ -22,14 +22,19 @@ class Queue {
     // deve ser utilizado para adicionar um usuário na fila
     addNextUser(name, cpf, priority){
         const newUser = new User(name, cpf, this.idCounter);
-        // criação da lista
-        if (this.start == null) {
+         // criação da lista
+         if (this.start == null) {
             this.start = newUser;
             this.end = newUser;
         }
-        // adição no final da lista
-        if (this.end != null) {
-            this.end.next = newUser;
+        // adição ao fim da lista
+        else {
+            let tmp = this.start;
+            while (tmp.next != null){
+                tmp = tmp.next;
+            };
+            tmp.next = newUser;
+            // this.end.next = newUser;
             this.end = newUser;
         }
         this.length++;

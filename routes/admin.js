@@ -10,8 +10,6 @@ router.get('/', function(req, res, next) {
   res.render('admin', { title: 'Página do admin' });
 });
 // adiciona paciente à fila com método POST
-// to-do: terminar a função
-// to-do: método "addNextUser" não está funcionando como o esperado
 router.post('/newPatient', async function(req, res){
     const {nome, cpf} = req.body;
     if (nome == '' || cpf == ''){
@@ -20,20 +18,20 @@ router.post('/newPatient', async function(req, res){
     else{
       let resposta = await mongodb.returnQueue();
       let fila = new linkedList.Queue();
-      if (resposta){
+      if (resposta.length > 0){
         let objetoFila = resposta[0].queueHead; 
         fila.start = objetoFila.start
         fila.end = objetoFila.end
         fila.length = objetoFila.length
         fila.idCounter = objetoFila.idCounter;
         fila.addNextUser(nome, cpf, 0);
-        // console.log(fila);
         fila.printQueue();
         mongodb.modifyQueue(fila);
         res.send('Paciente adicionado');
       }
       else{
         fila.addNextUser(nome, cpf, 0);
+        console.log(fila);
         mongodb.insertQueue(fila);
         res.send('Fila criada')
       }
@@ -64,13 +62,24 @@ router.post('/newAppointment', function(req, res){
     res.render();
   }
   else{
-    let appointment = mysql.insertAppointment(nome, crm, data);
-    if (appointment){
+    try {
+      let appointment = mysql.insertAppointment(nome, crm, data);
       res.send('Atendimento cadastrado com sucesso!');
     }
-    else{
-      res.send('Não foi possível cadastrar o atendimento');
+    catch (error) {
+      res.send(`Erro ao cadastrar atendimento: ${error.stack}`);
     }
+  }
+});
+// remove a fila quando não tiver mais nenhum usuário
+// to-do: fazer a rota inteira
+router.post('/deleteQueue', function(req, res){
+  try {
+    mongodb.deleteQueue();  
+    res.send('Fila deletada');
+  }
+  catch (error) {
+    res.send(`Não foi possível deletar a fila: ${error.stack}`);
   }
 });
 module.exports = router;
