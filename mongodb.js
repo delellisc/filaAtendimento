@@ -101,6 +101,7 @@ async function removeTopPatient(){
                 currentQueue.removeTopUser();
                 currentQueue.printQueue();
                 modifyQueue(currentQueue);
+                console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA')
             }
             else{
                 deleteQueue();
@@ -124,10 +125,10 @@ async function deleteQueue(){
 };
 // função para retornar id de paciente
 async function returnId(patientId){
-    try {
-        let object = await Queue.find();
-        if (object.length == 1){
-            let objectValue = object[0];
+    try{
+        let query = await returnQueue();
+        if (query){
+            let objectValue = query[0];
             let queue = objectValue.queueHead;
             let tmp = queue.start;
             while (tmp != null){
@@ -137,10 +138,6 @@ async function returnId(patientId){
                 tmp = tmp.next;
             };
         }
-        else{
-            console.error('Fila não cadastrada');
-            return null;
-        };
     }
     catch (error) {
         console.error(`MONGO-ERRO: ${error.stack}`);

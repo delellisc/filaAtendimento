@@ -15,17 +15,21 @@ router.get('/:pacienteId', async function(req, res) {
   try {
     let position = await mongodb.returnId(pacienteId);
     if (position != null) {
-      res.send(`Sua posição é: ${position}`);
+      if (position == 1){
+        res.send('Você é o próximo!')
+      }
+      else{
+        res.send(`Sua posição é: ${position}`); 
+      }
     }
     else {
-      console.error('Paciente não encontrado');
+      res.send('Paciente não encontrado');
     }
   }
   catch (error) {
     res.status(500).json({ error: 'Erro no servidor', details: error });
   }
 });
-
 // login
 router.get('/login', async(req, res)=>{
   const {login, senha} = req.body;

@@ -38,7 +38,7 @@ router.post('/newPatient', async function(req, res){
 router.post('/removeTopPatient', async(req, res)=>{
   try {
     mongodb.removeTopPatient();
-    res.send("Patient removed") 
+    res.send("Paciente removido") 
   }
   catch (error) {
     res.status(500).json({error:error});
