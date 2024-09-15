@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Saúde</title>
+
+    <!-- Links do BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-OPdRzYvx+1J0rA3WnEOK5w8aF6Lh7Xlkjj1Rf91/1D3BzYkYB5jv5kKX5AGvZaPK" crossorigin="anonymous">
+    <!-- Estilos personalizados -->
+    <link rel='stylesheet' href='/stylesheets/pistyle.css' />
+</head>
+<body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-lg fixed-top">
+        <!-- Logo e Titulo -->
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <!-- imagem meramente ilustrativa para visualizar como ficaria com a logo -->
+                <img src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?t=st=1726343448~exp=1726347048~hmac=234b69c99e5bf2922e35a642c21b694df9d0c916e2f419d0a2031e0bfb7bba93&w=740" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+                <strong>Clínica Saúde</strong>
+            </a>
+        <!-- Menu de Opções -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Mais Opções</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Procurar</button>
+                </form>
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><strong>Login</strong></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Pagina Inicial</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Consultar Médicos Disponiveis</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <!-- Carousel -->
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://img.freepik.com/fotos-gratis/feche-o-retrato-da-enfermeira-asiatica-em-equipamento-de-protecao-individual-mostrando-seringa-com_1258-140919.jpg?semt=ais_hybrid" class="d-block w-100" alt="Mulher com seringa">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Seja Muito Bem Vindo(a) ao Nosso Site!</h5>
+                    <p>Explore nossos serviços e conheça a nossa equipe dedicada. Estamos aqui para cuidar de você com excelência e carinho.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://img.freepik.com/fotos-gratis/feche-o-retrato-da-enfermeira-asiatica-em-equipamento-de-protecao-individual-mostrando-seringa-com_1258-140919.jpg?semt=ais_hybrid" class="d-block w-100" alt="Mulher com seringa">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Uma Nova Experiência de Atendimento!</h5>
+                    <p>Utilize nossa fila de atendimento online para uma visita mais organizada e eficiente. Estamos aqui para oferecer a melhor experiência para você.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://img.freepik.com/fotos-gratis/feche-o-retrato-da-enfermeira-asiatica-em-equipamento-de-protecao-individual-mostrando-seringa-com_1258-140919.jpg?semt=ais_hybrid" class="d-block w-100" alt="Mulher com seringa">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Descubra Mais!</h5>
+                    <p>Para saber mais sobre nossos serviços e como podemos ajudar você, role a página até o final para encontrar nossas informações de contato.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+        </button>
+    </div>
+
+    <!-- Opções de Especialidades Disponíveis -->
+    <div class="container" style="margin-top: 5rem;">
+        <h2 class="text-center mb-4">Nossas Especialidades</h2>
+        <!-- Linha 1 -->
+        <div class="row">
+            <!-- Cardiologista -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://cardiologia.pro/wp-content/uploads/2017/10/fibrilacao-atrial-fa-cardiologista-sao-paulo-930x620.jpg" class="card-img-top img-fluid" alt="Cardiologista" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Cardiologista</h5>
+                        <p class="card-text">Cuida da saúde do seu coração com os melhores especialistas.</p>
+                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Ortopedista -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://img.freepik.com/vetores-premium/simbolos-ortopedicos-e-de-esqueleto-conjunto-de-articulacoes-e-ossos-humanos-vetor_124894-900.jpg" class="card-img-top img-fluid" alt="Ortopedista" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Ortopedista</h5>
+                        <p class="card-text">Tratamentos para ossos e articulações com tecnologia avançada.</p>
+                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Oftalmologista -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://img.freepik.com/vetores-premium/ilustracao-de-oftalmologia-desenhos-animados-do-medico-oftalmologista-oculista-verificando-examinando-a-saude-dos-olhos-do-paciente-com-teste-de-grafico-de-snellen-exame-clinico-clinico-isolado_213110-515.jpg" class="card-img-top img-fluid" alt="Oftalmologista" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Oftalmologista</h5>
+                        <p class="card-text">Cuide da saúde dos seus olhos com nossos especialistas.</p>
+                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Linha 2 -->
+        <div class="row">
+            <!-- Psiquiatra -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://hospitalprontoclinica.com.br/wp-content/uploads/2020/10/Design-sem-nome-2023-10-24T131524.376.jpg" class="card-img-top img-fluid" alt="Psiquiatra" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Psiquiatra</h5>
+                        <p class="card-text">Saúde mental em primeiro lugar. Conte com nossa equipe.</p>
+                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Psicólogo -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://www.seminariommi.com.br/wp-content/uploads/2023/06/entrevista-psicologica.jpg" class="card-img-top img-fluid" alt="Psicólogo" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Psicólogo</h5>
+                        <p class="card-text">Apoio emocional e terapia com os melhores médicos de nossa equipe.</p>
+                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Nutricionista -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://media.istockphoto.com/id/1410182132/pt/vetorial/nutritionist-makes-meal-plan.jpg?s=612x612&w=0&k=20&c=rBY0v8Q-yrijuLP84kU-vqV4E8MytbxnEwbUDTTuu7g=" class="card-img-top img-fluid" alt="Nutricionista" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">Nutricionista</h5>
+                        <p class="card-text">Planejamento alimentar para uma vida saudável.</p>
+                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sobre Nós -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Sobre Nós</h2>
+        <p class="text-center">Na Clínica Saúde, estamos comprometidos em oferecer cuidados de saúde excepcionais por meio de uma equipe de profissionais altamente qualificados e dedicados. Nosso objetivo é proporcionar um atendimento personalizado e eficiente, garantindo o bem-estar e a satisfação de nossos pacientes.</p>
+        <p class="text-center">Para aprimorar ainda mais a nossa qualidade de atendimento, implementamos um sistema de fila de atendimento. Este sistema foi projetado para otimizar a organização e a gestão das consultas, permitindo que os pacientes acompanhem o andamento da sua posição na fila de espera da sua referida consulta de maneira prática e conveniente, sem a necessidade de esperar no local. A fila de atendimento é uma ferramenta de grande eficiência e excelência, contribuindo para uma experiência mais tranquila e organizada.</p>
+    </div>
+
+    <!-- Depoimentos -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Feedbacks</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="testimonial text-center">
+                    <p>"Excelente atendimento! Os profissionais são muito atenciosos."</p>
+                    <h5>- Maria Fernandes</h5>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="testimonial text-center">
+                    <p>"A estrutura da clínica é fantástica. Me senti muito confortável."</p>
+                    <h5>- João Silva</h5>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="testimonial text-center">
+                    <p>"Recomendo a todos que buscam qualidade em saúde."</p>
+                    <h5>- Ana Pereira</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="text-center text-lg-start text-white">
+        <div class="container p-4">
+            <div class="row">
+
+                <!-- Logo -->
+                <div class="col-lg-4 col-md-12 mb-4 mb-md-0 text-center">
+                    <a class="navbar-brand d-flex align-items-center justify-content-center" href="#">
+                        <!-- imagem meramente ilustrativa para visualizar como ficaria com a logo -->
+                        <img src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?t=st=1726343448~exp=1726347048~hmac=234b69c99e5bf2922e35a642c21b694df9d0c916e2f419d0a2031e0bfb7bba93&w=740" alt="Logo" width="150" height="150" class="d-inline-block align-text-top me-2">
+                    </a>
+                </div>
+
+                <!-- Redes Sociais -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <h5>Redes Sociais</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://www.facebook.com" class="text-white me-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="35" height="35">
+                                Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com" class="text-white me-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" width="35" height="35">
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com" class="text-white me-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter" width="35" height="35">
+                                Twitter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+    
+                <!-- Endereço e Contato -->
+                <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+                    <h5>Endereço e Contato</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> Manoel Lopes Filho, 773, Currais Novos - RN
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i><b>Telefone:</b> +55 (84) 98765-4321
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i><b>Email:</b> clinicasaude@gmail.com.br
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="text-center p-3" style="background-color: #73bc91;">
+            &copy; 2024 Clínica Saúde. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <!-- JavaScript BootStrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
