@@ -1,16 +1,17 @@
 // modelo para criação de objetos do tipo usuário
 // todas as operações serão feitas a partir da "cabeça" da lista ligada
-// to-do: adicionar posição atual na lista como uma informação do objeto User ?
 class User {
     constructor(name, cpf, id) {
         this.name = name;
         this.cpf = cpf;
         this.id = id;
         this.status = 'Ok';
+        this.position = null;
         this.next = null;
     };
 };
 // criação do objeto fila
+// to-do: criação de uma fila de prioridade alternando entre pessoas com e sem prioridade de atendimento
 class Queue {
     constructor(){
         this.start = null;
@@ -18,27 +19,34 @@ class Queue {
         this.length = 0;
         this.idCounter = 1;
     };
+    // método para atualizar posições
+    // deve ser utilizado sempre que a lista for atualizada
+    updatePositions(){
+        let tmp = this.start;
+        let position = 1;
+        while (tmp != null){
+            tmp.position = position;
+            tmp = tmp.next;
+            position++;
+        }
+    };
     // método para adição de usuários na fila
     // deve ser utilizado para adicionar um usuário na fila
     addNextUser(name, cpf, priority){
         const newUser = new User(name, cpf, this.idCounter);
-         // criação da lista
-         if (this.start == null) {
+        // criação da lista
+        if (this.start == null) {
             this.start = newUser;
             this.end = newUser;
         }
-        // adição ao fim da lista
+        // adição no final da lista
         else {
-            let tmp = this.start;
-            while (tmp.next != null){
-                tmp = tmp.next;
-            };
-            tmp.next = newUser;
-            // this.end.next = newUser;
+            this.end.next = newUser;
             this.end = newUser;
         }
         this.length++;
         this.idCounter++;
+        this.updatePositions();
     };
     // método para remover o primeiro usuário da fila
     // deve ser utilizado quando uma consulta for concluída
@@ -53,6 +61,7 @@ class Queue {
         }
         this.length--;
         patient.next = null;
+        this.updatePositions();
         return patient;
     };
     // método para exibir o usuário no topo da fila
@@ -68,7 +77,7 @@ class Queue {
         }
         let tmp = this.start;
         let tmp2 = null;
-        while (tmp.next != null && tmp.id !== userId){        this.id = id;
+        while (tmp.next != null && tmp.id !== userId){
             tmp2 = tmp;
             tmp = tmp.next;
         }
@@ -88,6 +97,7 @@ class Queue {
         if (userToSwap == this.end){
             this.end = nextUser;
         }
+        this.updatePositions();
     };
     // método de espera
     // deve ser utilizado quando algum usuário não estiver presente e for o próximo na fila
@@ -109,10 +119,10 @@ class Queue {
     printQueue(){
         let start = this.start;
         while (start.next != null){
-            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id}`);
+            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Posição: ${start.position}`);
             start = start.next;
         };
-        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id}`);
+        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Posição: ${start.position}`);
     }
 };
 /*
@@ -123,11 +133,11 @@ teste.addNextUser('de Lellis', '789');
 teste.addNextUser('Medeiros', '789');
 teste.addNextUser('Santos', '321');
 teste.addNextUser('Rosendo', '654');
-//teste.waitForUser(2);
+teste.waitForUser(2);
 teste.printQueue();
-//let camilo = teste.removeTopUser();
+let camilo = teste.removeTopUser();
 //console.log(camilo);
-//teste.printQueue();
-console.log(teste);
+teste.printQueue();
+//console.log(teste);
 */
 module.exports = {Queue};
