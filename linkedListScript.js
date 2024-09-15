@@ -32,7 +32,7 @@ class Queue {
     };
     // método para adição de usuários na fila
     // deve ser utilizado para adicionar um usuário na fila
-    addNextUser(name, cpf, priority){
+    addNextUser(name, cpf){
         const newUser = new User(name, cpf, this.idCounter);
         // criação da lista
         if (this.start == null) {
@@ -125,6 +125,31 @@ class Queue {
         console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Posição: ${start.position}`);
     }
 };
+
+function createQueueByJSONObject(jsonObject) {
+    let patientQueue = new Queue();
+    let tmp = jsonObject.start;
+    let tmp2 = null;
+    while (tmp != null){
+        const newUser = new User(tmp.name, tmp.cpf, tmp.id);
+        newUser.status = tmp.status;
+        newUser.position = tmp.position;
+        if (tmp2 == null){
+            patientQueue.start = newUser;
+        }
+        else{
+            tmp2.next = newUser;
+        }
+        tmp2 = newUser;
+        if (tmp.next == null){
+            patientQueue.end = newUser;
+        }
+        tmp = tmp.next;
+    };
+    patientQueue.length = jsonObject.length;
+    patientQueue.idCounter = jsonObject.idCounter;
+    return patientQueue;
+}
 /*
 // testes com a estrutura de dados criada acima
 let teste = new Queue();
@@ -133,11 +158,52 @@ teste.addNextUser('de Lellis', '789');
 teste.addNextUser('Medeiros', '789');
 teste.addNextUser('Santos', '321');
 teste.addNextUser('Rosendo', '654');
-teste.waitForUser(2);
-teste.printQueue();
+// teste.waitForUser(2);
+// teste.printQueue();
 let camilo = teste.removeTopUser();
 //console.log(camilo);
 teste.printQueue();
+console.log(teste);
 //console.log(teste);
 */
-module.exports = {Queue};
+/*
+let objetoJson = {
+    "start": {
+        "name": 'de Lellis',
+        "cpf": '789',
+        "id": 2,
+        "status": 'Ok',
+        "position": 1,
+        "next": {
+        "name": 'Medeiros',
+        "cpf": '789',
+        "id": 3,
+        "status": 'Ok',
+        "position": 2,
+        "next": {
+            "name": 'Rosendo',
+            "cpf": '654',
+            "id": 5,
+            "status": 'Ok',
+            "position": 4,
+            "next": null
+        }
+    }
+    },
+    "end": {
+        "name": 'Rosendo',
+        "cpf": '654',
+        "id": 5,
+        "status": 'Ok',
+        "position": 4,
+        "next": null
+    },
+    "length": 4,
+    "idCounter": 6
+};
+let fila2 = createQueueByJSONObject(objetoJson);
+fila2.addNextUser('Santos', '321');
+console.log(fila2);
+fila2.printQueue();
+*/
+module.exports = {Queue, createQueueByJSONObject};

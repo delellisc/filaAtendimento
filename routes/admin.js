@@ -13,31 +13,36 @@ router.get('/', function(req, res, next) {
 // to-do: terminar a função
 // to-do: método "addNextUser" não está funcionando como o esperado
 router.post('/newPatient', async function(req, res){
-    const {nome, cpf} = req.body;
-    if (nome == '' || cpf == ''){
-      res.render();
+  const {nome, cpf} = req.body;
+  if (nome == '' || cpf == ''){
+    res.render();
+  }
+  else{
+    let resposta = await mongodb.returnQueue();
+    if (resposta){
+      let objeto = resposta[0];
+      let fila = linkedList.createQueueByJSONObject(objeto.queueHead);
+      fila.addNextUser(nome, cpf, 0);
+      fila.printQueue();
+      mongodb.modifyQueue(fila);
+      res.send('Paciente adicionado');
     }
     else{
-      let resposta = await mongodb.returnQueue();
       let fila = new linkedList.Queue();
-      if (resposta){
-        let objetoFila = resposta[0].queueHead; 
-        fila.start = objetoFila.start
-        fila.end = objetoFila.end
-        fila.length = objetoFila.length
-        fila.idCounter = objetoFila.idCounter;
-        fila.addNextUser(nome, cpf, 0);
-        // console.log(fila);
-        fila.printQueue();
-        mongodb.modifyQueue(fila);
-        res.send('Paciente adicionado');
-      }
-      else{
-        fila.addNextUser(nome, cpf, 0);
-        mongodb.insertQueue(fila);
-        res.send('Fila criada')
-      }
+      fila.addNextUser(nome, cpf, 0);
+      mongodb.insertQueue(fila);
+      res.send('Fila criada')
     }
+  }
+});
+router.post('/removeTopPatient', async(req, res)=>{
+  try {
+    mongodb.removeTopPatient();
+    res.send("Patient removed") 
+  }
+  catch (error) {
+    res.status(500).json({error:error});
+  }
 });
 // criação de novo admin
 // obs.: utilizar uma vez só

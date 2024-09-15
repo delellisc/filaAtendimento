@@ -8,8 +8,21 @@ router.get('/', function(req, res, next) {
 });
 
 // consultar posição na fila
-router.get('/getPosition', function(req, res) {
-  
+router.get('/getPosition', async function(req, res) {
+  const {pacienteId} = req.body;
+  if (pacienteId == null){
+    res.render();
+  }
+  else{
+    try {
+      let position = await mongodb.returnId(id);
+      console.log(position)
+      res.send(position);
+    }
+    catch (error) {
+      res.status(500).json({error:error});
+    }
+  };
 });
 
 // login
@@ -22,7 +35,6 @@ router.get('/login', async(req, res)=>{
     try {
         let validade = await mongodb.login(login, senha);
         if (validade){
-          // res.send("Login efetuado com sucesso!");
           res.render('admin', { title: 'Página do admin' });
         }
         else{

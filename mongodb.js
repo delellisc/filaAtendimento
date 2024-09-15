@@ -4,12 +4,7 @@ const mongoose = require("mongoose");
 const url = "mongodb+srv://arthurvinice:mongofila@db1.mqfmprk.mongodb.net/fila";
 const Admin = require("./models/users");
 const Queue = require("./models/queue")
-/*
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}
-*/
+const linkedList = require("./linkedListScript")
 // função que estabelece conexão com mongo
 function connectMongo(){
     try {
@@ -88,9 +83,30 @@ async function returnQueue(){
             return query;
         }
         else{
-            console.log('tem nada aqui nao rapaz')
+            console.log('Empty queue')
         }
     } 
+    catch (error) {
+        console.error(`MONGO-ERRO: ${error.stack}`);
+    }
+};
+// função para remover paciente
+// obs.: chamar quando consulta for concluída
+async function removeTopPatient(){
+    try{
+        let query = await returnQueue();
+        if (query){
+            let object = query[0];
+            let currentQueue = linkedList.createQueueByJSONObject(object.queueHead);
+            currentQueue.removeTopUser();
+            currentQueue.printQueue();
+            modifyQueue(currentQueue);
+        }
+        else{
+            deleteQueue();
+            console.log('Empty queue')
+        }
+    }
     catch (error) {
         console.error(`MONGO-ERRO: ${error.stack}`);
     }
@@ -105,5 +121,30 @@ async function deleteQueue(){
         console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
+// função para retornar id de paciente
+async function returnId(patientId){
+    try {
+        let object = await Queue.find();
+        if (object.length == 1){
+            let objectValue = object[0];
+            let queue = objectValue.queueHead;
+            let tmp = queue.start;
+            while (tmp != null){
+                if (tmp.id == patientId){
+                    return tmp.position;
+                }
+                tmp = tmp.next;
+            };
+        }
+        else{
+            console.error('Fila não cadastrada');
+            return null;
+        };
+    }
+    catch (error) {
+        console.error(`MONGO-ERRO: ${error.stack}`);
+    }
+};
+returnId(3);
 // exportação das funções 
-module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, login, insertQueue, deleteQueue};
+module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, login, insertQueue, deleteQueue, returnId, removeTopPatient};
