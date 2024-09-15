@@ -79,11 +79,10 @@ async function returnQueue(){
     try {
         const query = await Queue.find();
         if (query.length > 0){
-            //console.log(query[0]);
             return query;
         }
         else{
-            console.log('Empty queue')
+            console.log('Não há documentos cadastrados na coleção fila')
         }
     } 
     catch (error) {
@@ -97,15 +96,17 @@ async function removeTopPatient(){
         let query = await returnQueue();
         if (query){
             let object = query[0];
-            let currentQueue = linkedList.createQueueByJSONObject(object.queueHead);
-            currentQueue.removeTopUser();
-            currentQueue.printQueue();
-            modifyQueue(currentQueue);
-        }
-        else{
-            deleteQueue();
-            console.log('Empty queue')
-        }
+            if (object.queueHead.length > 1){
+                let currentQueue = linkedList.createQueueByJSONObject(object.queueHead);
+                currentQueue.removeTopUser();
+                currentQueue.printQueue();
+                modifyQueue(currentQueue);
+            }
+            else{
+                deleteQueue();
+                console.log('FRONT-END: ESVAZIANDO FILA')
+            };
+        };
     }
     catch (error) {
         console.error(`MONGO-ERRO: ${error.stack}`);
