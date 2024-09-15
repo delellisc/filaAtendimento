@@ -39,42 +39,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-// objetos json abaixo feitos apenas para teste
-let user3 = {
-  "name": "Medeiros",
-  "cpf": "456",
-  "id": 3,
-  "status": "Ok",
-  "priority": 0,
-  "next": null
-};
-let user2 = {
-  "name": "de Lellis",
-  "cpf": "789",
-  "id": 2,
-  "status": "Ok",
-  "priority": 0,
-  "next": user3
-};
-let user1 = {
-  "name": "Camilo",
-  "cpf": "123",
-  "id": 1,
-  "status": "Ok",
-  "priority": 0,
-  "next": user2
-};
-let testJson =  {
-  "start": user1,
-  "end": user3,
-  "length": 3,
-  "idCounter": 4
-};
-// funções de teste
+
 mongodb.connectMongo();
-// mongodb.insertAdmin('admin', '123');
-// mongodb.insertQueue(testJson);
-//mongodb.modifyQueue(testJson);
-// mysql.updateAppointment(1, 6, '05-09-2024', '10:30', '12:00');
 
 module.exports = app;

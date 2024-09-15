@@ -6,23 +6,24 @@ var mongodb = require('../mongodb');
 router.get('/', function(req, res, next) {
   res.render('users', { title: 'Página do usuário' });
 });
-
 // consultar posição na fila
-router.get('/getPosition', async function(req, res) {
-  const {pacienteId} = req.body;
-  if (pacienteId == null){
-    res.render();
+router.get('/:pacienteId', async function(req, res) {
+  const pacienteId = parseInt(req.params.pacienteId);
+  if (isNaN(pacienteId)) {
+    return res.render('error', { message: 'Paciente ID inválido' });
   }
-  else{
-    try {
-      let position = await mongodb.returnId(id);
-      console.log(position)
-      res.send(position);
+  try {
+    let position = await mongodb.returnId(pacienteId);
+    if (position != null) {
+      res.send(`Sua posição é: ${position}`);
     }
-    catch (error) {
-      res.status(500).json({error:error});
+    else {
+      console.error('Paciente não encontrado');
     }
-  };
+  }
+  catch (error) {
+    res.status(500).json({ error: 'Erro no servidor', details: error });
+  }
 });
 
 // login

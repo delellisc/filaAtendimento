@@ -125,7 +125,7 @@ class Queue {
         console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Posição: ${start.position}`);
     }
 };
-
+// função para converter a fila armazenada no mongoDB para um objeto da classe fila
 function createQueueByJSONObject(jsonObject) {
     let patientQueue = new Queue();
     let tmp = jsonObject.start;

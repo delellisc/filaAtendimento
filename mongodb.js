@@ -82,7 +82,7 @@ async function returnQueue(){
             return query;
         }
         else{
-            console.log('Não há documentos cadastrados na coleção fila')
+            console.error('Não há documentos cadastrados na coleção fila')
         }
     } 
     catch (error) {
@@ -146,6 +146,5 @@ async function returnId(patientId){
         console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
-returnId(3);
 // exportação das funções 
 module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, login, insertQueue, deleteQueue, returnId, removeTopPatient};
