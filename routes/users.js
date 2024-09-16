@@ -16,7 +16,7 @@ router.get('/:pacienteId', async function(req, res) {
     let position = await mongodb.returnId(pacienteId);
     if (position != null) {
       if (position == 1){
-        res.send('Você é o próximo!')
+        res.send('Você é o próximo!');
       }
       else{
         res.send(`Sua posição é: ${position}`); 

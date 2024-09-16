@@ -30,6 +30,8 @@ router.post('/newPatient', async function(req, res){
     else{
       let fila = new linkedList.Queue();
       fila.addNextUser(nome, cpf, 0);
+      
+      fila.printQueue();
       mongodb.insertQueue(fila);
       res.send('Fila criada')
     }

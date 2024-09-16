@@ -53,6 +53,7 @@ async function insertQueue(topPatient){
     try {
         const teste = new Queue({ queueHead: topPatient });
         await teste.save();
+        console.log('FRONT-END: ADICIONANDO FILA NA PÁGINA');
     } 
     catch (error) {
         console.error(`MONGO-ERRO: ${error.stack}`);
@@ -67,6 +68,7 @@ async function modifyQueue(topPatient){
             returnQueue();
         }
         else{
+            console.log('FRONT-END: ADICIONANDO PACIENTE NO FIM DA FILA');
             insertQueue(topPatient);
         };
     } 
@@ -117,6 +119,7 @@ async function removeTopPatient(){
 async function deleteQueue(){
     try {
         // deleta primeiro documento da coleção
+        console.log('FRONT-END: REMOVENDO FILA DA PÁGINA');
         await Queue.deleteOne({});
     }
     catch (error) {
