@@ -6,5 +6,16 @@
 </head>
 <body>
     <h1><%= title %></h1>
+    <p id="position">Carregando sua posição na fila...</p>
+    <script>
+        const id = <%= pacienteId %>;
+        async function fetchPosition() {
+        await fetch(`/users/checkPosition/${id}`)
+        .then(response => response.text())
+        .then(text => console.log(text))
+        };
+        setInterval(fetchPosition, 3000);
+        fetchPosition();
+    </script>
 </body>
 </html>

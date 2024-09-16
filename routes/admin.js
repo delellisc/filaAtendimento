@@ -10,8 +10,6 @@ router.get('/', function(req, res, next) {
   res.render('admin', { title: 'Página do admin' });
 });
 // adiciona paciente à fila com método POST
-// to-do: terminar a função
-// to-do: método "addNextUser" não está funcionando como o esperado
 router.post('/newPatient', async function(req, res){
   const {nome, cpf} = req.body;
   if (nome == '' || cpf == ''){

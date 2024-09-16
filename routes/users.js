@@ -6,6 +6,17 @@ var mongodb = require('../mongodb');
 router.get('/', function(req, res, next) {
   res.render('users', { title: 'Página do usuário' });
 });
+// consultar posiçao na fila
+router.get('/checkPosition/:pacienteId', async function(req, res){
+  const pacienteId = parseInt(req.params.pacienteId);
+  let position = await mongodb.returnId(pacienteId);
+  if (isNaN(pacienteId)){
+    return res.render('error', { message: 'Paciente ID inválido' });
+  }
+  else{
+    res.send(`${position}`);
+  }
+})
 // consultar posição na fila
 router.get('/:pacienteId', async function(req, res) {
   const pacienteId = parseInt(req.params.pacienteId);
@@ -13,18 +24,7 @@ router.get('/:pacienteId', async function(req, res) {
     return res.render('error', { message: 'Paciente ID inválido' });
   }
   try {
-    let position = await mongodb.returnId(pacienteId);
-    if (position != null) {
-      if (position == 1){
-        res.send('Você é o próximo!');
-      }
-      else{
-        res.send(`Sua posição é: ${position}`); 
-      }
-    }
-    else {
-      res.send('Paciente não encontrado');
-    }
+    res.render('users', { title: 'Página do usuário', pacienteId: `${pacienteId}`});
   }
   catch (error) {
     res.status(500).json({ error: 'Erro no servidor', details: error });
