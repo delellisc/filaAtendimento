@@ -7,9 +7,11 @@ router.get('/', function(req, res, next) {
   res.render('users', { title: 'Página do usuário' });
 });
 // consultar posiçao na fila
-router.get('/checkPosition/:pacienteId', async function(req, res){
+router.get('/checkPosition/:especialidade/:pacienteId', async function(req, res){
   const pacienteId = parseInt(req.params.pacienteId);
-  let position = await mongodb.returnPosition(pacienteId);
+  const especialidade = req.params.especialidade;
+  console.log(req.params)
+  let position = await mongodb.returnPosition(pacienteId, especialidade);
   if (isNaN(pacienteId)){
     res.render('error', { message: 'Paciente ID inválido' });
   }
@@ -18,13 +20,14 @@ router.get('/checkPosition/:pacienteId', async function(req, res){
   }
 })
 // consultar posição na fila
-router.get('/:pacienteId', async function(req, res) {
+router.get('/:especialidade/:pacienteId', async function(req, res) {
   const pacienteId = parseInt(req.params.pacienteId);
+  const especialidade = req.params.especialidade;
   if (isNaN(pacienteId)) {
     return res.render('error', { message: 'Paciente ID inválido' });
   }
   try {
-    res.render('users', { title: 'Página do usuário', pacienteId: `${pacienteId}`});
+    res.render('users', { title: `Fila ${especialidade}`, pacienteId: `${pacienteId}`, especialidade: especialidade});
   }
   catch (error) {
     res.status(500).json({ error: 'Erro no servidor', details: error });

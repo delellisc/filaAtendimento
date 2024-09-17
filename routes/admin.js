@@ -10,18 +10,18 @@ router.get('/', function(req, res, next) {
 });
 // adiciona paciente à fila com método POST
 router.post('/newPatient', async function(req, res){
-  const {nome, cpf} = req.body;
+  const {nome, cpf, especialidade} = req.body;
   if (nome == '' || cpf == ''){
     res.render();
   }
   else{
-    let resposta = await mongodb.returnQueue();
+    let resposta = await mongodb.returnQueue(especialidade);
     if (resposta){
       let objeto = resposta[0];
       let fila = linkedList.createQueueByJSONObject(objeto.queueHead);
       fila.addNextUser(nome, cpf, 0);
       fila.printQueue();
-      mongodb.modifyQueue(fila);
+      mongodb.modifyQueue(fila, especialidade);
       res.send('Paciente adicionado');
     }
     else{
@@ -29,14 +29,15 @@ router.post('/newPatient', async function(req, res){
       fila.addNextUser(nome, cpf, 0);
       
       fila.printQueue();
-      mongodb.insertQueue(fila);
+      mongodb.insertQueue(fila, especialidade);
       res.send('Fila criada')
     }
   }
 });
 router.post('/removeTopPatient', async(req, res)=>{
+  const {especialidade} = req.body;
   try {
-    let patient = await mongodb.removeTopPatient();
+    let patient = await mongodb.removeTopPatient(especialidade);
     res.send(`Paciente removido: ${patient.name}`);
   }
   catch (error) {
@@ -45,9 +46,9 @@ router.post('/removeTopPatient', async(req, res)=>{
 });
 // espera por paciente
 router.post('/waitForPatient', async(req, res)=>{
-  const {patientId} = req.body;
+  const {patientId, especialidade} = req.body;
   try {
-    mongodb.waitForPatient(patientId);
+    mongodb.waitForPatient(patientId, especialidade);
     res.send("Status do paciente alterado");
   }
   catch (error) {

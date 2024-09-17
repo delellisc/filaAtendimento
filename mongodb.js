@@ -49,9 +49,9 @@ async function login(username, password){
 };
 // função para inserir fila no mongodb
 // to-do: alterar o primeiro registro da fila toda vez que alguma alteração for feita
-async function insertQueue(topPatient){
+async function insertQueue(topPatient, speciality){
     try {
-        const teste = new Queue({ queueHead: topPatient });
+        const teste = new Queue({ queueHead: topPatient, speciality: speciality });
         await teste.save();
         console.log('FRONT-END: ADICIONANDO FILA NA PÁGINA');
     } 
@@ -60,16 +60,16 @@ async function insertQueue(topPatient){
     }
 };
 // função para modificar fila
-async function modifyQueue(topPatient){
+async function modifyQueue(topPatient, speciality){
     try {
-        const query = await Queue.find();
+        const query = await Queue.find({speciality:speciality});
         if (query.length > 0){
             const updateQuery = await Queue.updateOne({_id:query[0]._id},{queueHead:topPatient});
-            returnQueue();
+            returnQueue(speciality);
         }
         else{
             console.log('FRONT-END: ADICIONANDO PACIENTE NO FIM DA FILA');
-            insertQueue(topPatient);
+            insertQueue(topPatient, speciality);
         };
     } 
     catch (error) {
@@ -77,9 +77,9 @@ async function modifyQueue(topPatient){
     }
 };
 // função de teste para retorno da fila
-async function returnQueue(){
+async function returnQueue(speciality){
     try {
-        const query = await Queue.find();
+        const query = await Queue.find({speciality:speciality});
         if (query.length > 0){
             return query;
         }
@@ -93,9 +93,9 @@ async function returnQueue(){
 };
 // função para remover paciente
 // obs.: chamar quando consulta for concluída
-async function removeTopPatient(){
+async function removeTopPatient(speciality){
     try{
-        let query = await returnQueue();
+        let query = await returnQueue(speciality);
         if (query){
             let object = query[0];
             if (object.queueHead.length > 1){
@@ -103,12 +103,12 @@ async function removeTopPatient(){
                 let patient = currentQueue.removeTopUser();
                 currentQueue.printQueue();
                 // console.log(patient.name);
-                modifyQueue(currentQueue);
+                modifyQueue(currentQueue, speciality);
                 console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA');
                 return patient;
             }
             else{
-                deleteQueue();
+                deleteQueue(speciality);
                 console.log('FRONT-END: ESVAZIANDO FILA');
             };
         };
@@ -118,20 +118,20 @@ async function removeTopPatient(){
     }
 };
 // função para deletar fila
-async function deleteQueue(){
+async function deleteQueue(speciality){
     try {
         // deleta primeiro documento da coleção
         console.log('FRONT-END: REMOVENDO FILA DA PÁGINA');
-        await Queue.deleteOne({});
+        await Queue.deleteOne({speciality:speciality});
     }
     catch (error) {
         console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
 // função para esperar paciente
-async function waitForPatient(patientId){
+async function waitForPatient(patientId, speciality){
     try{
-        let query = await returnQueue();
+        let query = await returnQueue(speciality);
         if (query){
             let object = query[0];
             let queue = linkedList.createQueueByJSONObject(object.queueHead);
@@ -145,9 +145,9 @@ async function waitForPatient(patientId){
     }
 };
 // função para retornar posição do paciente
-async function returnPosition(patientId){
+async function returnPosition(patientId, speciality){
     try{
-        let query = await returnQueue();
+        let query = await returnQueue(speciality);
         if (query){
             let objectValue = query[0];
             let queue = objectValue.queueHead;

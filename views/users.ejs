@@ -9,10 +9,12 @@
     <p id="position">Carregando sua posição na fila...</p>
     <script>
         const id = <%= pacienteId %>;
+        const esp = '<%= especialidade %>';
         async function fetchPosition() {
-        await fetch(`/users/checkPosition/${id}`)
+        await fetch(`/users/checkPosition/${esp}/${id}`)
         .then(response => response.text())
         .then(text => {
+        // quando dá undefined cai nesse condicional
         if (text) {
             if (text == '1'){
                 document.getElementById("position").innerHTML = 'Você é o próximo!';
@@ -20,7 +22,8 @@
             else{
                 document.getElementById("position").innerHTML = `Você é o ${text}º na fila!`;
             }
-        } else {
+        }
+        else{
             document.getElementById("position").innerHTML = 'Paciente não encontrado';
         }})
         .catch(error => {

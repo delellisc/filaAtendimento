@@ -119,10 +119,10 @@ class Queue {
     printQueue(){
         let start = this.start;
         while (start.next != null){
-            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Posição: ${start.position}`);
+            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`);
             start = start.next;
         };
-        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | ID: ${start.id} | Posição: ${start.position}`);
+        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`);
     }
 };
 // função para converter a fila armazenada no mongoDB para um objeto da classe fila
