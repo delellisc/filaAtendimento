@@ -38,7 +38,18 @@ router.post('/newPatient', async function(req, res){
 router.post('/removeTopPatient', async(req, res)=>{
   try {
     mongodb.removeTopPatient();
-    res.send("Paciente removido") 
+    res.send("Paciente removido");
+  }
+  catch (error) {
+    res.status(500).json({error:error});
+  }
+});
+// espera por paciente
+router.post('/waitForPatient', async(req, res)=>{
+  const {patientId} = req.body;
+  try {
+    mongodb.waitForPatient(patientId);
+    res.send("Status do paciente alterado");
   }
   catch (error) {
     res.status(500).json({error:error});

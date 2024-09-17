@@ -9,9 +9,9 @@ router.get('/', function(req, res, next) {
 // consultar posiçao na fila
 router.get('/checkPosition/:pacienteId', async function(req, res){
   const pacienteId = parseInt(req.params.pacienteId);
-  let position = await mongodb.returnId(pacienteId);
+  let position = await mongodb.returnPosition(pacienteId);
   if (isNaN(pacienteId)){
-    return res.render('error', { message: 'Paciente ID inválido' });
+    res.render('error', { message: 'Paciente ID inválido' });
   }
   else{
     res.send(`${position}`);

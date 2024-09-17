@@ -12,8 +12,21 @@
         async function fetchPosition() {
         await fetch(`/users/checkPosition/${id}`)
         .then(response => response.text())
-        .then(text => console.log(text))
-        };
+        .then(text => {
+        if (text) {
+            if (text == '1'){
+                document.getElementById("position").innerHTML = 'Você é o próximo!';
+            }
+            else{
+                document.getElementById("position").innerHTML = `Você é o ${text}º na fila!`;
+            }
+        } else {
+            document.getElementById("position").innerHTML = 'Paciente não encontrado';
+        }})
+        .catch(error => {
+            console.error('Error fetching position:', error);
+            document.getElementById("position").innerHTML = 'Erro ao verificar posição';
+        })};
         setInterval(fetchPosition, 3000);
         fetchPosition();
     </script>

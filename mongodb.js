@@ -103,11 +103,11 @@ async function removeTopPatient(){
                 currentQueue.removeTopUser();
                 currentQueue.printQueue();
                 modifyQueue(currentQueue);
-                console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA')
+                console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA');
             }
             else{
                 deleteQueue();
-                console.log('FRONT-END: ESVAZIANDO FILA')
+                console.log('FRONT-END: ESVAZIANDO FILA');
             };
         };
     }
@@ -126,8 +126,24 @@ async function deleteQueue(){
         console.error(`MONGO-ERRO: ${error.stack}`);
     }
 };
-// função para retornar id de paciente
-async function returnId(patientId){
+// função para esperar paciente
+async function waitForPatient(patientId){
+    try{
+        let query = await returnQueue();
+        if (query){
+            let object = query[0];
+            let queue = linkedList.createQueueByJSONObject(object.queueHead);
+            queue.waitForUser(patientId);
+            modifyQueue(queue);
+            console.log('FRONT-END: ESPERANDO POR PACIENTE')
+        }
+    }
+    catch (error) {
+        console.error(`MONGO-ERRO: ${error.stack}`);
+    }
+};
+// função para retornar posição do paciente
+async function returnPosition(patientId){
     try{
         let query = await returnQueue();
         if (query){
@@ -147,4 +163,4 @@ async function returnId(patientId){
     }
 };
 // exportação das funções 
-module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, login, insertQueue, deleteQueue, returnId, removeTopPatient};
+module.exports = {connectMongo, returnQueue, modifyQueue, insertAdmin, login, insertQueue, deleteQueue, returnPosition, removeTopPatient, waitForPatient};

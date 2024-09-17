@@ -1,37 +1,38 @@
--- script para criação do banco de dados relacional
+-- Criação do banco de dados
 CREATE DATABASE fila_atendimento;
-USE DATABASE fila_atendimento;
+USE fila_atendimento;
+
 CREATE TABLE paciente(
-	paciente_id SERIAL PRIMARY KEY,
-	nome TEXT,
-    cpf VARCHAR(14),
+    cpf VARCHAR(14) PRIMARY KEY,
+    nome TEXT
 );
+
 CREATE TABLE especialidade(
-	especialidade_id SERIAL PRIMARY KEY,
+    especialidade_id INT AUTO_INCREMENT PRIMARY KEY,
     especialidade TEXT
 );
+
 CREATE TABLE profissional(
-	profissional_id SERIAL PRIMARY KEY,
-    especialidade_id INTEGER,
+    crm VARCHAR(20) PRIMARY KEY,
+    especialidade_id INT,
     nome TEXT,
-    crm VARCHAR(),
     FOREIGN KEY (especialidade_id) REFERENCES especialidade(especialidade_id)
 );
+
 CREATE TABLE consulta(
-	profissional_id INTEGER,
-    paciente_id INTEGER,
+    crm VARCHAR(14),
+    cpf VARCHAR(14),
     data_consulta DATE,
-	horario_inicio DATE,
-    horario_fim DATE,
+    horario_inicio TIME,
+    horario_fim TIME,
     descricao TEXT,
-    FOREIGN KEY (profissional_id) REFERENCES profissional(profissional_id),
-    FOREIGN KEY (paciente_id) REFERENCES paciente(paciente_id)
+    FOREIGN KEY (crm) REFERENCES profissional(crm),
+    FOREIGN KEY (cpf) REFERENCES paciente(cpf)
 );
+
 CREATE TABLE atendimento(
-	atendimento_id SERIAL PRIMARY KEY,
-	profissional_id INTEGER,
+    atendimento_id INT AUTO_INCREMENT PRIMARY KEY,
+    crm VARCHAR(14),
     data_atendimento DATE,
-    -- horario_inicio DATE,
-    -- horario_fim DATE,
-    FOREIGN KEY (profissional_id) REFERENCES profissional(profissional_id);
+    FOREIGN KEY (crm) REFERENCES profissional(crm)
 );
