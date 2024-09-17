@@ -101,11 +101,16 @@ async function insertPatient(name, cpf){
 // função que retorna o id do paciente
 async function returnsPatientId(patientName){
     try {
-        const [result] = await connection.promise().query(`SELECT cpf FROM paciente WHERE nome ILIKE "${patientName}"`);
-        return result;
+        const [result] = await connection.promise().query(`SELECT cpf FROM paciente WHERE LOWER(nome) = LOWER(?)`, [patientName]);
+        if (result.length > 0){
+            return result[0];
+        }
+        else{
+            console.error(`Paciente não encontrado`);
+        }
     }
     catch (error) {
         console.error(`Não foi possível retornar o id do paciente: ${error.stack}`);
     }
 };
-module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId /*, consultUser, insertUser*/};
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId, insertPatient /*, consultUser, insertUser*/};

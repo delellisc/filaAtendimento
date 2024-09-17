@@ -36,8 +36,8 @@ router.post('/newPatient', async function(req, res){
 });
 router.post('/removeTopPatient', async(req, res)=>{
   try {
-    mongodb.removeTopPatient();
-    res.send("Paciente removido");
+    let patient = await mongodb.removeTopPatient();
+    res.send(`Paciente removido: ${patient.name}`);
   }
   catch (error) {
     res.status(500).json({error:error});
@@ -88,4 +88,19 @@ router.post('/newAppointment', function(req, res){
     }
   }
 });
+router.get('/searchPatient', async function(req, res){
+  const {nome} = req.body;
+  if (nome == ''){
+    res.render();
+  }
+  else{
+    let appointment = await mysql.returnsPatientId(nome);
+    if (appointment){
+      res.send(`${appointment}`);
+    }
+    else{
+      res.send('Não foi possível cadastrar o atendimento');
+    }
+  }
+})
 module.exports = router;

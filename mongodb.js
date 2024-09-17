@@ -100,10 +100,12 @@ async function removeTopPatient(){
             let object = query[0];
             if (object.queueHead.length > 1){
                 let currentQueue = linkedList.createQueueByJSONObject(object.queueHead);
-                currentQueue.removeTopUser();
+                let patient = currentQueue.removeTopUser();
                 currentQueue.printQueue();
+                // console.log(patient.name);
                 modifyQueue(currentQueue);
                 console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA');
+                return patient;
             }
             else{
                 deleteQueue();
