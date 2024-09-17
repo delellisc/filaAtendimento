@@ -73,6 +73,9 @@ async function insertAppointment(crm, appointmentDate){
 };
 // função para atualização de um atendimento no banco de dados
 async function updateAppointment(appointmentId, crm, appointmentDate){
+    if (isNaN(appointmentId)){
+        res.render();
+    }
     try {
         let setClause = [];
         if (crm != ''){
@@ -80,12 +83,6 @@ async function updateAppointment(appointmentId, crm, appointmentDate){
         }
         if (appointmentDate != ''){
             setClause.push(`data_consulta = ${appointmentDate}`);
-        }
-        if (appointmentStartTime != ''){
-            setClause.push(`horario_inicio = ${appointmentStartTime}`);            
-        }
-        if (appointmentEndTime){
-            setClause.push(`horario_fim = ${appointmentEndTime}`);
         }
         let setClauseString = setClause.join(", ")
         const [queryResult] = await connection.promise().query(`UPDATE atendimento SET ${setClauseString} WHERE atendimento_id = ${appointmentId};`);
@@ -99,17 +96,18 @@ async function updateAppointment(appointmentId, crm, appointmentDate){
 // função que retorna atendimentos
 async function returnsAppointment(data){
     try {
-        const [query] = await connection.promise().query(`SELECT * FROM atendimento WHERE data_atendimento = "${data}";`);    
+        /* const [query] = await connection.promise().query(`SELECT * FROM atendimento WHERE data_atendimento = "${data}";`);
+        console.log(query); */
+        await connection.promise().query(`SELECT * FROM atendimento WHERE data_atendimento = "${data}";`);
     }
     catch (error) {
         console.error(`Erro ao atendimentos: ${error.stack}`);
     }
 };
 // insere um médico
-async function insertProfessional(crm, ){
+async function insertProfessional(crm, especialidade_id, nome){
     try {
-        const [result] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento) VALUES ("${crm}", "${data}");`);
-        return result;
+        await connection.promise().query(`INSERT INTO profissional(crm, especialidade_id, nome) VALUES ("${crm}", "${especialidade_id}" "${nome}");`);
     } 
     catch (error) {
         console.error(`Erro ao inserir o médico: ${error.stack}`);
@@ -138,5 +136,5 @@ async function insertConsultation(crm, cpf, atendimentoId, descricao){
     }
 }
 connect();
-insertProfessional();
+returnsAppointment('2024-09-21');
 module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsAppointment, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};
