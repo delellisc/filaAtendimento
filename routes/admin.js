@@ -4,7 +4,7 @@ var mongodb = require('../mongodb');
 var linkedList = require('../linkedListScript');
 const Queue = require('../models/queue');
 // to-do: conectar ao banco de dados relacional
-// var mysql = require('../mysql');
+var mysql = require('../mysql');
 /* GET user admin home page. */
 router.get('/', function(req, res, next) {
   res.render('admin', { title: 'Página do admin' });

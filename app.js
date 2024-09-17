@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongodb = require('./mongodb');
-// var mysql = require('./mysql');
+var mysql = require('./mysql');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -41,5 +41,6 @@ app.use(function(err, req, res, next) {
 });
 
 mongodb.connectMongo();
+mysql.connect();
 
 module.exports = app;

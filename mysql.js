@@ -13,7 +13,7 @@ function connect(){
             return;
         }
         else{
-            console.log("Banco de dados conectado com sucesso!");
+            console.log("Banco de dados relacional conectado com sucesso!");
         }
     })
 };
@@ -30,9 +30,9 @@ function disconnect(){
     })
 };
 // função para inserção de um atendimento no banco de dados
-async function insertAppointment(professionalId, appointmentDate, appointmentStartTime, appointmentEndTime){
+async function insertAppointment(crm, appointmentDate, appointmentStartTime, appointmentEndTime){
     try {
-        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(profissional_id, data_atendimento, horario_inicio, horario_fim) VALUES("${professionalId}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
+        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento, horario_inicio, horario_fim) VALUES("${crm}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
         return queryResult;
     } 
     catch (error) {
@@ -41,11 +41,11 @@ async function insertAppointment(professionalId, appointmentDate, appointmentSta
     }
 };
 // função para atualização de um atendimento no banco de dados
-async function updateAppointment(appointmentId, professionalId, appointmentDate, appointmentStartTime, appointmentEndTime){
+async function updateAppointment(appointmentId, crm, appointmentDate, appointmentStartTime, appointmentEndTime){
     try {
         let setClause = [];
-        if (professionalId != ''){
-            setClause.push(`profissional_id = ${professionalId}`);
+        if (crm != ''){
+            setClause.push(`crm = ${crm}`);
         }
         if (appointmentDate != ''){
             setClause.push(`data_consulta = ${appointmentDate}`);
@@ -66,10 +66,10 @@ async function updateAppointment(appointmentId, professionalId, appointmentDate,
     }
 };
 // retorna id do médico a partir do nome
-async function returnsProfessionalId(professionalName){
+async function returnsCRM(professionalName){
     try {
-        const professionalId = await connection.promise().query(`SELECT profissional_id FROM profissional WHERE nome ILIKE "${professionalName}";`);
-        return professionalId;
+        const crm = await connection.promise().query(`SELECT crm FROM profissional WHERE nome ILIKE "${professionalName}";`);
+        return crm;
     }
     catch (error) {
         console.error(`Erro ao adquirir id do profissional: ${error.stack}`);
@@ -80,7 +80,7 @@ async function returnsProfessionalId(professionalName){
 // obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
 async function inserirConsulta(profissionalId, pacienteId, dataConsulta, horarioInicio, horarioFim, descricao){
     try {
-        const [result] = await connection.promise().query(`INSERT INTO consulta(profissional_id, paciente_id, data_consulta, horario_inicio, horario_fim, descricao) VALUES("${profissionalId}", "${pacienteId}", "${dataConsulta}", "${horarioInicio}", "${horarioFim}", "${descricao}");`);
+        const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, data_consulta, horario_inicio, horario_fim, descricao) VALUES("${profissionalId}", "${pacienteId}", "${dataConsulta}", "${horarioInicio}", "${horarioFim}", "${descricao}");`);
         return result;
     }
     catch (error) {
@@ -101,7 +101,7 @@ async function insertPatient(name, cpf){
 // função que retorna o id do paciente
 async function returnsPatientId(patientName){
     try {
-        const [result] = await connection.promise().query(`SELECT paciente_id FROM paciente WHERE nome ILIKE "${patientName}"`);
+        const [result] = await connection.promise().query(`SELECT cpf FROM paciente WHERE nome ILIKE "${patientName}"`);
         return result;
     }
     catch (error) {
