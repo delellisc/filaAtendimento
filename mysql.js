@@ -29,64 +29,6 @@ function disconnect(){
         }
     })
 };
-// função para inserção de um atendimento no banco de dados
-async function insertAppointment(crm, appointmentDate, appointmentStartTime, appointmentEndTime){
-    try {
-        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento, horario_inicio, horario_fim) VALUES("${crm}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
-        return queryResult;
-    } 
-    catch (error) {
-        console.error(`Erro ao inserir a ocorrência: ${error.stack}`);
-        throw error;
-    }
-};
-// função para atualização de um atendimento no banco de dados
-async function updateAppointment(appointmentId, crm, appointmentDate, appointmentStartTime, appointmentEndTime){
-    try {
-        let setClause = [];
-        if (crm != ''){
-            setClause.push(`crm = ${crm}`);
-        }
-        if (appointmentDate != ''){
-            setClause.push(`data_consulta = ${appointmentDate}`);
-        }
-        if (appointmentStartTime != ''){
-            setClause.push(`horario_inicio = ${appointmentStartTime}`);            
-        }
-        if (appointmentEndTime){
-            setClause.push(`horario_fim = ${appointmentEndTime}`);
-        }
-        let setClauseString = setClause.join(", ")
-        const [queryResult] = await connection.promise().query(`UPDATE atendimento SET ${setClauseString} WHERE atendimento_id = ${appointmentId};`);
-        return queryResult;
-    }
-    catch (error){
-        console.error(`Erro ao atualizar a ocorrência: ${error.stack}`);
-        throw error;
-    }
-};
-// retorna id do médico a partir do nome
-async function returnsCRM(professionalName){
-    try {
-        const crm = await connection.promise().query(`SELECT crm FROM profissional WHERE nome ILIKE "${professionalName}";`);
-        return crm;
-    }
-    catch (error) {
-        console.error(`Erro ao adquirir id do profissional: ${error.stack}`);
-        throw error;
-    }
-}
-// função para inserir uma consulta no banco de dados
-// obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
-async function insertConsultation(crm, cpf, atendimentoId, descricao){
-    try {
-        const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, atendimento_id, descricao) VALUES("${crm}", "${cpf}", "${atendimentoId}", "${descricao}");`);
-        return result;
-    }
-    catch (error) {
-        console.error(`Erro ao inserir uma ocorrência na tabela consulta: ${error.stack}`)
-    }
-}
 // função para inserir um paciente no banco de dados
 // obs.: o paciente deve ser inserido após a conclusão de uma consulta
 async function insertPatient(name, cpf){
@@ -118,4 +60,83 @@ async function returnsPatientId(patientName){
         console.error(`Não foi possível retornar o id do paciente: ${error.stack}`);
     }
 };
-module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId, insertPatient, insertConsultation /*, consultUser, insertUser*/};
+// função para inserção de um atendimento no banco de dados
+async function insertAppointment(crm, appointmentDate){
+    try {
+        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento, horario_inicio, horario_fim) VALUES("${crm}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
+        return queryResult;
+    } 
+    catch (error) {
+        console.error(`Erro ao inserir a ocorrência: ${error.stack}`);
+        throw error;
+    }
+};
+// função para atualização de um atendimento no banco de dados
+async function updateAppointment(appointmentId, crm, appointmentDate){
+    try {
+        let setClause = [];
+        if (crm != ''){
+            setClause.push(`crm = ${crm}`);
+        }
+        if (appointmentDate != ''){
+            setClause.push(`data_consulta = ${appointmentDate}`);
+        }
+        if (appointmentStartTime != ''){
+            setClause.push(`horario_inicio = ${appointmentStartTime}`);            
+        }
+        if (appointmentEndTime){
+            setClause.push(`horario_fim = ${appointmentEndTime}`);
+        }
+        let setClauseString = setClause.join(", ")
+        const [queryResult] = await connection.promise().query(`UPDATE atendimento SET ${setClauseString} WHERE atendimento_id = ${appointmentId};`);
+        return queryResult;
+    }
+    catch (error){
+        console.error(`Erro ao atualizar a ocorrência: ${error.stack}`);
+        throw error;
+    }
+};
+// função que retorna atendimentos
+async function returnsAppointment(data){
+    try {
+        const [query] = await connection.promise().query(`SELECT * FROM atendimento WHERE data_atendimento = "${data}";`);    
+    }
+    catch (error) {
+        console.error(`Erro ao atendimentos: ${error.stack}`);
+    }
+};
+// insere um médico
+async function insertProfessional(crm, ){
+    try {
+        const [result] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento) VALUES ("${crm}", "${data}");`);
+        return result;
+    } 
+    catch (error) {
+        console.error(`Erro ao inserir o médico: ${error.stack}`);
+    }
+};
+// retorna id do médico a partir do nome
+async function returnsCRM(professionalName){
+    try {
+        const crm = await connection.promise().query(`SELECT crm FROM profissional WHERE nome ILIKE "${professionalName}";`);
+        return crm;
+    }
+    catch (error) {
+        console.error(`Erro ao adquirir id do profissional: ${error.stack}`);
+        throw error;
+    }
+}
+// função para inserir uma consulta no banco de dados
+// obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
+async function insertConsultation(crm, cpf, atendimentoId, descricao){
+    try {
+        const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, atendimento_id, descricao) VALUES("${crm}", "${cpf}", "${atendimentoId}", "${descricao}");`);
+        return result;
+    }
+    catch (error) {
+        console.error(`Erro ao inserir uma ocorrência na tabela consulta: ${error.stack}`)
+    }
+}
+connect();
+insertProfessional();
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsAppointment, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};
