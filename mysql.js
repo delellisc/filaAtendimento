@@ -78,9 +78,9 @@ async function returnsCRM(professionalName){
 }
 // função para inserir uma consulta no banco de dados
 // obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
-async function insertConsultation(profissionalId, pacienteId, dataConsulta, horarioInicio, horarioFim, descricao){
+async function insertConsultation(crm, cpf, atendimentoId, descricao){
     try {
-        const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, data_consulta, horario_inicio, horario_fim, descricao) VALUES("${profissionalId}", "${pacienteId}", "${dataConsulta}", "${horarioInicio}", "${horarioFim}", "${descricao}");`);
+        const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, atendimento_id, descricao) VALUES("${crm}", "${cpf}", "${atendimentoId}", "${descricao}");`);
         return result;
     }
     catch (error) {

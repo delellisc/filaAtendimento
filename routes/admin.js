@@ -9,9 +9,11 @@ router.get('/', function(req, res, next) {
   res.render('admin', { title: 'Página do admin' });
 });
 // adiciona paciente à fila com método POST
-router.post('/newPatient', async function(req, res){
-  const {nome, cpf, especialidade} = req.body;
-  if (nome == '' || cpf == ''){
+router.post('/:atendimento/newPatient', async function(req, res){
+  const especialidade = req.params.atendimento;
+  const {nome, cpf} = req.body;
+  console.log(nome, cpf)
+  if (nome == '' || cpf == '' || especialidade == ''){
     res.render();
   }
   else{
@@ -20,9 +22,9 @@ router.post('/newPatient', async function(req, res){
       let objeto = resposta[0];
       let fila = linkedList.createQueueByJSONObject(objeto.queueHead);
       fila.addNextUser(nome, cpf, 0);
-      fila.printQueue();
       mongodb.modifyQueue(fila, especialidade);
-      res.send('Paciente adicionado');
+      res.setHeader('Content-Type', 'application/json');
+      res.render('fila', {title: `Gerencimanto da fila ${especialidade}`, fila:fila});
     }
     else{
       let fila = new linkedList.Queue();
@@ -34,10 +36,13 @@ router.post('/newPatient', async function(req, res){
     }
   }
 });
-router.post('/removeTopPatient', async(req, res)=>{
-  const {especialidade} = req.body;
+// remove o paciente no topo da fila
+// cadastra a consulta no banco de dados relacional
+router.post('/:especialidade/removeTopPatient', async(req, res)=>{
+  const especialidade = req.params.especialidade;
   try {
     let patient = await mongodb.removeTopPatient(especialidade);
+    await mysql.insertConsultation(patient.name, patient.cpf, descricao);
     res.send(`Paciente removido: ${patient.name}`);
   }
   catch (error) {
@@ -71,10 +76,6 @@ router.post('/newAdmin', async(req, res)=>{
         res.status(500).json({error:error});
     }
   }
-});
-// cadastra consulta após paciente ser removido da fila
-router.post('/newConsultation', function(req, res){
-
 });
 // cadastra atendimento no banco de dados usando POST
 // *** NÃO NECESSÁRIA ***
