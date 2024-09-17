@@ -108,4 +108,4 @@ async function returnsPatientId(patientName){
         console.error(`Não foi possível retornar o id do paciente: ${error.stack}`);
     }
 };
-module.exports = {connect, disconnect, insertAppointment, updateAppointment /*, consultUser, insertUser*/};
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId /*, consultUser, insertUser*/};
