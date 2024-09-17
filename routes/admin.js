@@ -72,8 +72,12 @@ router.post('/newAdmin', async(req, res)=>{
     }
   }
 });
+// cadastra consulta após paciente ser removido da fila
+router.post('/newConsultation', function(req, res){
+
+});
 // cadastra atendimento no banco de dados usando POST
-// to-do: terminar a função
+// *** NÃO NECESSÁRIA ***
 router.post('/newAppointment', function(req, res){
   const {nome, crm, data} = req.body;
   if (nome == '' || crm == '' || data == ''){
@@ -89,6 +93,20 @@ router.post('/newAppointment', function(req, res){
     }
   }
 });
+// inserir paciente no banco de dados relacional
+// *** NAO NECESSARIA ***
+router.post('/insertPatient', async function(req, res){
+  const {nome, cpf} = req.body;
+  if (nome == '' || cpf == ''){
+    res.render();
+  }
+  else{
+    await mysql.insertPatient(nome, cpf);
+    res.send('Paciente cadastrado!')
+  };
+});
+// procurar paciente
+// *** NAO NECESSARIA ***
 router.get('/searchPatient', async function(req, res){
   const {nome} = req.body;
   if (nome == ''){

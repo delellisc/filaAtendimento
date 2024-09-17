@@ -78,7 +78,7 @@ async function returnsCRM(professionalName){
 }
 // função para inserir uma consulta no banco de dados
 // obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
-async function inserirConsulta(profissionalId, pacienteId, dataConsulta, horarioInicio, horarioFim, descricao){
+async function insertConsultation(profissionalId, pacienteId, dataConsulta, horarioInicio, horarioFim, descricao){
     try {
         const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, data_consulta, horario_inicio, horario_fim, descricao) VALUES("${profissionalId}", "${pacienteId}", "${dataConsulta}", "${horarioInicio}", "${horarioFim}", "${descricao}");`);
         return result;
@@ -91,8 +91,13 @@ async function inserirConsulta(profissionalId, pacienteId, dataConsulta, horario
 // obs.: o paciente deve ser inserido após a conclusão de uma consulta
 async function insertPatient(name, cpf){
     try {
-        const [result] = await connection.promise().query(`INSERT INTO paciente(nome, cpf) VALUES("${name}", "${cpf}");`);
-        return result;
+        const [search] = await connection.promise().query(`SELECT * FROM paciente WHERE cpf = "${cpf}";`);;
+        if (search.length < 1){
+            await connection.promise().query(`INSERT INTO paciente(nome, cpf) VALUES("${name}", "${cpf}");`);
+        }
+        else{
+            console.error('Paciente já cadastrado')
+        }
     }
     catch (error) {
         console.error(`Erro ao inserir uma ocorrência na tabela paciente: ${error.stack}`)
@@ -113,4 +118,4 @@ async function returnsPatientId(patientName){
         console.error(`Não foi possível retornar o id do paciente: ${error.stack}`);
     }
 };
-module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId, insertPatient /*, consultUser, insertUser*/};
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId, insertPatient, insertConsultation /*, consultUser, insertUser*/};
