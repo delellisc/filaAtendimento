@@ -95,79 +95,113 @@
     <!-- Opções de Especialidades Disponíveis -->
     <div class="container" style="margin-top: 5rem;">
         <h2 class="text-center mb-4">Nossas Especialidades</h2>
-        <!-- Linha 1 -->
-        <div class="row">
-            <!-- Cardiologista -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://cardiologia.pro/wp-content/uploads/2017/10/fibrilacao-atrial-fa-cardiologista-sao-paulo-930x620.jpg" class="card-img-top img-fluid" alt="Cardiologista" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">Cardiologista</h5>
-                        <p class="card-text">Cuida da saúde do seu coração com os melhores especialistas.</p>
-                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
-                    </div>
+        <div id="specialitiesContainer" class="row"></div>
+    </div>
+
+    <!-- Modal para inserir id do paciente -->
+    <div class="modal fade" id="patientIdModal" tabindex="-1" aria-labelledby="patientIdModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="patientIdModalLabel">Digite o ID do Paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <!-- Ortopedista -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://img.freepik.com/vetores-premium/simbolos-ortopedicos-e-de-esqueleto-conjunto-de-articulacoes-e-ossos-humanos-vetor_124894-900.jpg" class="card-img-top img-fluid" alt="Ortopedista" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">Ortopedista</h5>
-                        <p class="card-text">Tratamentos para ossos e articulações com tecnologia avançada.</p>
-                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
-                    </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="patientIdInput" placeholder="Insira o ID do paciente">
                 </div>
-            </div>
-            <!-- Oftalmologista -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://img.freepik.com/vetores-premium/ilustracao-de-oftalmologia-desenhos-animados-do-medico-oftalmologista-oculista-verificando-examinando-a-saude-dos-olhos-do-paciente-com-teste-de-grafico-de-snellen-exame-clinico-clinico-isolado_213110-515.jpg" class="card-img-top img-fluid" alt="Oftalmologista" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">Oftalmologista</h5>
-                        <p class="card-text">Cuide da saúde dos seus olhos com nossos especialistas.</p>
-                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Linha 2 -->
-        <div class="row">
-            <!-- Psiquiatra -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://hospitalprontoclinica.com.br/wp-content/uploads/2020/10/Design-sem-nome-2023-10-24T131524.376.jpg" class="card-img-top img-fluid" alt="Psiquiatra" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">Psiquiatra</h5>
-                        <p class="card-text">Saúde mental em primeiro lugar. Conte com nossa equipe.</p>
-                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Psicólogo -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://www.seminariommi.com.br/wp-content/uploads/2023/06/entrevista-psicologica.jpg" class="card-img-top img-fluid" alt="Psicólogo" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">Psicólogo</h5>
-                        <p class="card-text">Apoio emocional e terapia com os melhores médicos de nossa equipe.</p>
-                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Nutricionista -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://media.istockphoto.com/id/1410182132/pt/vetorial/nutritionist-makes-meal-plan.jpg?s=612x612&w=0&k=20&c=rBY0v8Q-yrijuLP84kU-vqV4E8MytbxnEwbUDTTuu7g=" class="card-img-top img-fluid" alt="Nutricionista" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">Nutricionista</h5>
-                        <p class="card-text">Planejamento alimentar para uma vida saudável.</p>
-                        <a href="#" class="btn btn-primary stretched-link">Consultar Fila</a>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="submitPatientId">Confirmar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        let selectedSpeciality = null;
+        function openPatientIdModal(speciality) {
+            selectedSpeciality = speciality;
+            const patientIdModal = new bootstrap.Modal(document.getElementById('patientIdModal'));
+            patientIdModal.show();
+        }
+        document.getElementById('submitPatientId').addEventListener('click', function() {
+            const patientId = document.getElementById('patientIdInput').value;
+            if (patientId) {
+                window.location.href = `/users/${selectedSpeciality}/${patientId}`;
+            } else {
+                alert('Por favor, insira o ID do paciente.');
+            }
+        });
+        function createSpecialityCard(speciality) {
+            const container = document.getElementById('specialitiesContainer');
+            const specialityData = {
+                Cardiologia: {
+                    img: 'https://cardiologia.pro/wp-content/uploads/2017/10/fibrilacao-atrial-fa-cardiologista-sao-paulo-930x620.jpg',
+                    description: 'Cuida da saúde do seu coração com os melhores especialistas.'
+                },
+                Ortopedia: {
+                    img: 'https://img.freepik.com/vetores-premium/simbolos-ortopedicos-e-de-esqueleto-conjunto-de-articulacoes-e-ossos-humanos-vetor_124894-900.jpg',
+                    description: 'Tratamentos para ossos e articulações com tecnologia avançada.'
+                },
+                Oftalmologia: {
+                    img: 'https://img.freepik.com/vetores-premium/ilustracao-de-oftalmologia-desenhos-animados-do-medico-oftalmologista-oculista-verificando-examinando-a-saude-dos-olhos-do-paciente-com-teste-de-grafico-de-snellen-exame-clinico-clinico-isolado_213110-515.jpg',
+                    description: 'Cuide da saúde dos seus olhos com nossos especialistas.'
+                },
+                Psiquiatria: {
+                    img: 'https://hospitalprontoclinica.com.br/wp-content/uploads/2020/10/Design-sem-nome-2023-10-24T131524.376.jpg',
+                    description: 'Saúde mental em primeiro lugar. Conte com nossa equipe.'
+                },
+                Psicologia: {
+                    img: 'https://www.seminariommi.com.br/wp-content/uploads/2023/06/entrevista-psicologica.jpg',
+                    description: 'Apoio emocional e terapia com os melhores médicos de nossa equipe.'
+                },
+                Nutrição: {
+                    img: 'https://media.istockphoto.com/id/1410182132/pt/vetorial/nutritionist-makes-meal-plan.jpg?s=612x612&w=0&k=20&c=rBY0v8Q-yrijuLP84kU-vqV4E8MytbxnEwbUDTTuu7g=',
+                    description: 'Planejamento alimentar para uma vida saudável.'
+                },
+                Pediatria: {
+                    img: 'https://media.istockphoto.com/id/1217870906/photo/young-girl-being-examined-by-her-pediatrician-using-a-stethoscope.jpg?s=612x612&w=0&k=20&c=Q1IfjKkiRHPrDw1wzTW8B0FnExvJOKsPlXuNczOE6Bo=',
+                    description: 'Cuidados médicos especializados para crianças e adolescentes.'
+                },
+                Dermatologia: {
+                    img: 'https://media.istockphoto.com/id/1403253820/pt/foto/dermatologist-examines-childs-skin-for-rashes.jpg?s=612x612&w=0&k=20&c=Dr4xjs2pVhv81YN5z8iC6GCTJLoV9AcAlW5hFtUIOFo=',
+                    description: 'Tratamento especializado para a saúde da sua pele.'
+                },
+                Neurologia: {
+                    img: 'https://media.istockphoto.com/id/1300815360/pt/vetorial/brain-digital-health-interface-human-head-skull-virtual-wireframe-futuristic-technological.jpg?s=612x612&w=0&k=20&c=KDcjo8FQyCejAiyZ1fuUoDUHg52fyMZ_kA1F0KOGfg8=',
+                    description: 'Cuidados e tratamentos avançados para o sistema nervoso.'
+                }
+            };
+            const imgSrc = specialityData[speciality]?.img || 'https://via.placeholder.com/300x200?text=Especialidade';
+            const description = specialityData[speciality]?.description || 'Descrição da especialidade.';
+            const cardHTML = `
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="${imgSrc}" class="card-img-top img-fluid" alt="${speciality}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">${speciality}</h5>
+                            <p class="card-text">${description}</p>
+                            <a href="#" class="btn btn-primary stretched-link" onclick="openPatientIdModal('${speciality}')">Consultar Fila</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        }
+        function fetchAvailableSpecialities() {
+            fetch('/admin/showAppointments')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(atendimento => {
+                        const speciality = atendimento.especialidade;
+                        createSpecialityCard(speciality);
+                    });
+                })
+                .catch(error => console.error('Error fetching available specialities:', error));
+        }
+        fetchAvailableSpecialities();
+    </script>
+
 
     <!-- Sobre Nós -->
     <div class="container my-5">
