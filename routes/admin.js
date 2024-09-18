@@ -23,7 +23,7 @@ router.post('/newPatient', async function(req, res){
       fila.addNextUser(nome, cpf, 0);
       fila.printQueue();
       mongodb.modifyQueue(fila, especialidade);
-      res.render('fila', {title: `Gerencimanto da fila ${especialidade}`, fila});
+      res.render('Paciente adicionado');
     }
     else{
       let fila = new linkedList.Queue();
@@ -37,12 +37,12 @@ router.post('/newPatient', async function(req, res){
 // remove o paciente no topo da fila
 // cadastra a consulta no banco de dados relacional
 router.post('/removeTopPatient', async(req, res)=>{
-  const {especialidade} = req.body();
+  const {especialidade} = req.body;
   try {
     let patient = await mongodb.removeTopPatient(especialidade);
     await mysql.insertPatient(patient.name, patient.cpf);
     await mysql.insertConsultation(patient.cpf, especialidade);
-    res.send(`Paciente removido: ${patient.name}`);
+    res.send();
   }
   catch (error) {
     res.status(500).json({error:error});
