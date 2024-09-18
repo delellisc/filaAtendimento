@@ -30,8 +30,8 @@ body {
             padding: 1rem;
             border-radius: 10px;
 }
-/* ajuste do conteúdo da página em relação a nav bar */
-.my-5{
+/* ajuste do conteúdo da página em relação a nav bar (admin) */
+.my-5, .mt-5{
   padding-top: 2rem;
 }
 /* Cards */
