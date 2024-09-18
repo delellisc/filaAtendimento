@@ -78,7 +78,6 @@ router.post('/newAdmin', async(req, res)=>{
   }
 });
 // cadastra atendimento no banco de dados usando POST
-// *** NÃO NECESSÁRIA ***
 router.post('/newAppointment', function(req, res){
   const {crm, data} = req.body;
   if (crm == '' || data == ''){
