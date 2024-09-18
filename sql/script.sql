@@ -65,15 +65,15 @@ INSERT INTO profissional (crm, especialidade_id, nome) VALUES
 ('CRM010', 9, 'Dra. Laura Fernandes');
 
 INSERT INTO atendimento (crm, data_atendimento) VALUES 
-('CRM001', '2024-09-15'),
+('CRM001', '2024-09-16'),
 ('CRM002', '2024-09-16'),
 ('CRM003', '2024-09-17'),
-('CRM004', '2024-09-18'),
-('CRM006', '2024-09-20'),
-('CRM007', '2024-09-21'),
-('CRM008', '2024-09-22'),
-('CRM009', '2024-09-23'),
-('CRM010', '2024-09-24');
+('CRM004', '2024-09-17'),
+('CRM006', '2024-09-17'),
+('CRM007', '2024-09-17'),
+('CRM008', '2024-09-18'),
+('CRM009', '2024-09-19'),
+('CRM010', '2024-09-19');
 
 INSERT INTO consulta (crm, cpf, atendimento_id, descricao) VALUES 
 ('CRM001', '123.456.789-00', 1, 'Consulta de rotina'),

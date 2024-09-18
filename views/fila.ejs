@@ -8,9 +8,9 @@
     <h1><%= title %></h1>
     <p id="teste">Fila começa aqui</p>
     <script>
-        const fila = <%- JSON.stringify(fila) %>;
+        const filaTeste = <%= fila %>;
         function printQueue(){
-            let start = fila;
+            let start = filaTeste;
             while (start.next != null){
                 document.getElementById("teste").innerText += `\nNome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`;
                 start = start.next;

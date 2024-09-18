@@ -94,20 +94,29 @@ async function updateAppointment(appointmentId, crm, appointmentDate){
     }
 };
 // função que retorna atendimentos
-async function returnsAppointment(data){
+async function returnTodayAppointments(){
     try {
-        /* const [query] = await connection.promise().query(`SELECT * FROM atendimento WHERE data_atendimento = "${data}";`);
-        console.log(query); */
-        await connection.promise().query(`SELECT * FROM atendimento WHERE data_atendimento = "${data}";`);
+        const [query] = await connection.promise().query('SELECT * FROM atendimento WHERE DATE(data_atendimento) = CURDATE();');
+        return query;
     }
     catch (error) {
-        console.error(`Erro ao atendimentos: ${error.stack}`);
+        console.error(`Erro ao retornar atendimentos: ${error.stack}`);
+    }
+}
+// retorna atendimento de especialidade
+async function returnSpecialityAppointment(especialidade){
+    try {
+        let [appointment] = await connection.promise().query(`SELECT a.atendimento_id, a.crm, e.especialidade FROM atendimento a INNER JOIN profissional p ON a.crm = p.crm INNER JOIN especialidade e ON e.especialidade_id = p.especialidade_id WHERE DATE(a.data_atendimento) = CURDATE() AND e.especialidade = '${especialidade}';`)
+        return appointment;
+    }
+    catch (error) {
+        console.error(`Erro ao retornar atendimentos: ${error.stack}`);
     }
 };
 // insere um médico
-async function insertProfessional(crm, especialidade_id, nome){
+async function insertProfessional(crm, especialidade_id, crm){
     try {
-        await connection.promise().query(`INSERT INTO profissional(crm, especialidade_id, nome) VALUES ("${crm}", "${especialidade_id}" "${nome}");`);
+        const [query] = await connection.promise().query(`INSERT INTO profissional(crm, especialidade_id, nome) VALUES ("${crm}", "${especialidade_id}" "${nome}");`);
     } 
     catch (error) {
         console.error(`Erro ao inserir o médico: ${error.stack}`);
@@ -126,15 +135,15 @@ async function returnsCRM(professionalName){
 }
 // função para inserir uma consulta no banco de dados
 // obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
-async function insertConsultation(crm, cpf, atendimentoId, descricao){
+async function insertConsultation(cpf, especialidade){
     try {
-        const [result] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, atendimento_id, descricao) VALUES("${crm}", "${cpf}", "${atendimentoId}", "${descricao}");`);
-        return result;
+        const appointments = await returnSpecialityAppointment(especialidade)
+        const appointment = appointments[0];
+        const [query] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, atendimento_id) VALUES("${appointment.crm}", "${cpf}", "${appointment.atendimento_id}");`);
+        console.log(query)
     }
     catch (error) {
         console.error(`Erro ao inserir uma ocorrência na tabela consulta: ${error.stack}`)
     }
 }
-connect();
-returnsAppointment('2024-09-21');
-module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsAppointment, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};

@@ -9,8 +9,8 @@ router.get('/', function(req, res, next) {
   res.render('admin', { title: 'Página do admin' });
 });
 // adiciona paciente à fila com método POST
-router.post('/:atendimento/newPatient', async function(req, res){
-  const especialidade = req.params.atendimento;
+router.post('/:especialidade/newPatient', async function(req, res){
+  const especialidade = req.params.especialidade;
   const {nome, cpf} = req.body;
   console.log(nome, cpf)
   if (nome == '' || cpf == '' || especialidade == ''){
@@ -22,14 +22,13 @@ router.post('/:atendimento/newPatient', async function(req, res){
       let objeto = resposta[0];
       let fila = linkedList.createQueueByJSONObject(objeto.queueHead);
       fila.addNextUser(nome, cpf, 0);
+      fila.printQueue();
       mongodb.modifyQueue(fila, especialidade);
-      res.setHeader('Content-Type', 'application/json');
-      res.render('fila', {title: `Gerencimanto da fila ${especialidade}`, fila:fila});
+      res.render('fila', {title: `Gerencimanto da fila ${especialidade}`, fila});
     }
     else{
       let fila = new linkedList.Queue();
       fila.addNextUser(nome, cpf, 0);
-      
       fila.printQueue();
       mongodb.insertQueue(fila, especialidade);
       res.send('Fila criada')
@@ -42,7 +41,7 @@ router.post('/:especialidade/removeTopPatient', async(req, res)=>{
   const especialidade = req.params.especialidade;
   try {
     let patient = await mongodb.removeTopPatient(especialidade);
-    await mysql.insertConsultation(patient.name, patient.cpf, descricao);
+    await mysql.insertConsultation(patient.cpf, especialidade);
     res.send(`Paciente removido: ${patient.name}`);
   }
   catch (error) {
@@ -94,33 +93,4 @@ router.post('/newAppointment', function(req, res){
     }
   }
 });
-// inserir paciente no banco de dados relacional
-// *** NAO NECESSARIA ***
-router.post('/insertPatient', async function(req, res){
-  const {nome, cpf} = req.body;
-  if (nome == '' || cpf == ''){
-    res.render();
-  }
-  else{
-    await mysql.insertPatient(nome, cpf);
-    res.send('Paciente cadastrado!')
-  };
-});
-// procurar paciente
-// *** NAO NECESSARIA ***
-router.get('/searchPatient', async function(req, res){
-  const {nome} = req.body;
-  if (nome == ''){
-    res.render();
-  }
-  else{
-    let appointment = await mysql.returnsPatientId(nome);
-    if (appointment){
-      res.send(`${appointment}`);
-    }
-    else{
-      res.send('Não foi possível cadastrar o atendimento');
-    }
-  }
-})
 module.exports = router;

@@ -119,10 +119,10 @@ class Queue {
     printQueue(){
         let start = this.start;
         while (start.next != null){
-            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`);
+            console.log(`Nome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position} | ID: ${start.id}`);
             start = start.next;
         };
-        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`);
+        console.log(`Nome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position} | ID: ${start.id}`);
     }
 };
 // função para converter a fila armazenada no mongoDB para um objeto da classe fila
@@ -150,22 +150,21 @@ function createQueueByJSONObject(jsonObject) {
     patientQueue.idCounter = jsonObject.idCounter;
     return patientQueue;
 }
-/*
-// testes com a estrutura de dados criada acima
+/* // testes com a estrutura de dados criada acima
 let teste = new Queue();
 teste.addNextUser('Camilo', '123');
 teste.addNextUser('de Lellis', '789');
 teste.addNextUser('Medeiros', '789');
 teste.addNextUser('Santos', '321');
 teste.addNextUser('Rosendo', '654');
-// teste.waitForUser(2);
+teste.waitForUser(2);
 // teste.printQueue();
-let camilo = teste.removeTopUser();
+//let camilo = teste.removeTopUser();
 //console.log(camilo);
 teste.printQueue();
-console.log(teste);
 //console.log(teste);
-*/
+//console.log(teste);
+ */
 /*
 let objetoJson = {
     "start": {

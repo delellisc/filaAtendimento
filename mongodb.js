@@ -48,12 +48,11 @@ async function login(username, password){
     }
 };
 // função para inserir fila no mongodb
-// to-do: alterar o primeiro registro da fila toda vez que alguma alteração for feita
 async function insertQueue(topPatient, speciality){
     try {
         const teste = new Queue({ queueHead: topPatient, speciality: speciality });
         await teste.save();
-        console.log('FRONT-END: ADICIONANDO FILA NA PÁGINA');
+        // console.log('FRONT-END: ADICIONANDO FILA NA PÁGINA');
     } 
     catch (error) {
         console.error(`MONGO-ERRO: ${error.stack}`);
@@ -68,7 +67,7 @@ async function modifyQueue(topPatient, speciality){
             returnQueue(speciality);
         }
         else{
-            console.log('FRONT-END: ADICIONANDO PACIENTE NO FIM DA FILA');
+            // console.log('FRONT-END: ADICIONANDO PACIENTE NO FIM DA FILA');
             insertQueue(topPatient, speciality);
         };
     } 
@@ -104,12 +103,12 @@ async function removeTopPatient(speciality){
                 currentQueue.printQueue();
                 // console.log(patient.name);
                 modifyQueue(currentQueue, speciality);
-                console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA');
+                // console.log('FRONT-END: REMOVENDO PACIENTE NO TOPO DA FILA');
                 return patient;
             }
             else{
                 deleteQueue(speciality);
-                console.log('FRONT-END: ESVAZIANDO FILA');
+                // console.log('FRONT-END: ESVAZIANDO FILA');
             };
         };
     }
@@ -121,7 +120,7 @@ async function removeTopPatient(speciality){
 async function deleteQueue(speciality){
     try {
         // deleta primeiro documento da coleção
-        console.log('FRONT-END: REMOVENDO FILA DA PÁGINA');
+        // console.log('FRONT-END: REMOVENDO FILA DA PÁGINA');
         await Queue.deleteOne({speciality:speciality});
     }
     catch (error) {
@@ -136,8 +135,9 @@ async function waitForPatient(patientId, speciality){
             let object = query[0];
             let queue = linkedList.createQueueByJSONObject(object.queueHead);
             queue.waitForUser(patientId);
-            modifyQueue(queue);
-            console.log('FRONT-END: ESPERANDO POR PACIENTE')
+            queue.printQueue();
+            modifyQueue(queue, speciality);
+            //console.log('FRONT-END: ESPERANDO POR PACIENTE')
         }
     }
     catch (error) {
