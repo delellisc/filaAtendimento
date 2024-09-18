@@ -7,18 +7,6 @@
   <body>
     <h1><%= title %></h1>
     <p id="teste">Fila começa aqui</p>
-    <script>
-        const filaTeste = <%= fila %>;
-        function printQueue(){
-            let start = filaTeste;
-            while (start.next != null){
-                document.getElementById("teste").innerText += `\nNome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`;
-                start = start.next;
-            };
-            document.getElementById("teste").innerText += `\nNome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`;
-        }
-        printQueue();
-        document.getElementById("teste").innerText += '\nlindo';
-    </script>
+    
   </body>
 </html>

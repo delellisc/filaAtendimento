@@ -23,7 +23,7 @@ router.post('/newPatient', async function(req, res){
       fila.addNextUser(nome, cpf, 0);
       fila.printQueue();
       mongodb.modifyQueue(fila, especialidade);
-      res.render('Paciente adicionado');
+      res.send('Paciente adicionado');
     }
     else{
       let fila = new linkedList.Queue();
@@ -32,6 +32,22 @@ router.post('/newPatient', async function(req, res){
       mongodb.insertQueue(fila, especialidade);
       res.send('Fila criada')
     }
+  }
+});
+// teste
+router.get('/fila', async(req, res) =>{
+  res.render('fila', {title:'Fila cardiologia'})
+});
+// teste
+router.get('/:especialidade/getQueue', async(req, res)=>{
+  const especialidade = req.params.especialidade;
+  const query = await mongodb.returnQueue(especialidade);
+  if(query){
+    let resultado = query[0].queueHead;
+    res.json(resultado);
+  }
+  else{
+    res.render('error', { message: 'Erro ao consultar especialidades' });
   }
 });
 // remove o paciente no topo da fila

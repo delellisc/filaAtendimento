@@ -50,6 +50,91 @@
     <div class="container my-5">
         <h1 class="mb-4"><%= title %></h1>
 
+        <div id="queuesContainer" class="mb-4"></div>
+        
+        <script>
+            function printQueue(speciality, fila) {
+                let tableBody = document.getElementById(`queueTableBody_${speciality}`);
+                tableBody.innerHTML = "";
+                let start = fila.start;
+                while (start != null) {
+                    let row = document.createElement("tr");
+                    let nameCell = document.createElement("td");
+                    nameCell.textContent = start.name;
+                    row.appendChild(nameCell);
+                    let cpfCell = document.createElement("td");
+                    cpfCell.textContent = start.cpf;
+                    row.appendChild(cpfCell);
+                    let idCell = document.createElement("td");
+                    idCell.textContent = start.id;
+                    row.appendChild(idCell);
+                    let positionCell = document.createElement("td");
+                    positionCell.textContent = start.position;
+                    row.appendChild(positionCell);
+                    tableBody.appendChild(row);
+                    start = start.next;
+                }
+            }
+            function fetchQueueDataForSpeciality(speciality) {
+                console.log(speciality);
+                fetch(`/admin/${speciality}/getQueue`)
+                    .then(response => response.json())
+                    .then(data => printQueue(speciality, data))
+                    .catch(error => console.error(`Error fetching queue data for ${speciality}:`, error));
+            }
+            function createTableForSpeciality(speciality) {
+                let container = document.getElementById("queuesContainer");
+                let cardDiv = document.createElement("div");
+                cardDiv.className = "card mb-4";
+                cardDiv.innerHTML = `
+                    <div class="card-header">
+                        <h3>Fila de Espera ${speciality}</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>ID</th>
+                                    <th>Posição</th>
+                                </tr>
+                            </thead>
+                            <tbody id="queueTableBody_${speciality}">
+                                <!-- Data for ${speciality} will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(cardDiv);
+                fetchQueueDataForSpeciality(speciality);
+            }
+    
+            function fetchAvailableSpecialities() {
+                fetch('/admin/showAppointments')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(atendimento => {
+                            console.log(atendimento);
+                            let speciality = atendimento.especialidade;
+                            createTableForSpeciality(speciality);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching available specialities:', error));
+            }
+            fetchAvailableSpecialities();
+            setInterval(() => {
+                fetch('/admin/showAppointments')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(atendimento => {
+                            let speciality = atendimento.especialidade;
+                            fetchQueueDataForSpeciality(speciality);
+                        });
+                    });
+            }, 3000);
+        </script>
+
         <!-- Formulário para Adicionar Paciente -->
         <div class="card mb-4">
             <div class="card-header">
