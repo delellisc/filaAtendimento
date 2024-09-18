@@ -30,6 +30,10 @@ body {
             padding: 1rem;
             border-radius: 10px;
 }
+/* ajuste do conteúdo da página em relação a nav bar */
+.my-5{
+  padding-top: 2rem;
+}
 /* Cards */
 .card {
   border-radius: 10px;
