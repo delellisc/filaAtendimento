@@ -9,9 +9,8 @@ router.get('/', function(req, res, next) {
   res.render('admin', { title: 'Página do admin' });
 });
 // adiciona paciente à fila com método POST
-router.post('/:especialidade/newPatient', async function(req, res){
-  const especialidade = req.params.especialidade;
-  const {nome, cpf} = req.body;
+router.post('/newPatient', async function(req, res){
+  const {nome, cpf, especialidade} = req.body;
   console.log(nome, cpf)
   if (nome == '' || cpf == '' || especialidade == ''){
     res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
@@ -37,8 +36,8 @@ router.post('/:especialidade/newPatient', async function(req, res){
 });
 // remove o paciente no topo da fila
 // cadastra a consulta no banco de dados relacional
-router.post('/:especialidade/removeTopPatient', async(req, res)=>{
-  const especialidade = req.params.especialidade;
+router.post('/removeTopPatient', async(req, res)=>{
+  const {especialidade} = req.body();
   try {
     let patient = await mongodb.removeTopPatient(especialidade);
     await mysql.insertPatient(patient.name, patient.cpf);
@@ -95,7 +94,6 @@ router.post('/newAppointment', function(req, res){
 });
 // insere um novo médico
 router.post('/newProfessional', async function (req, res) {
-  console.log('sou lindo')
   const { nome, crm, especialidade } = req.body;
   if (nome == '' || crm == '' || especialidade == '') {
       res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
@@ -109,4 +107,14 @@ router.post('/newProfessional', async function (req, res) {
       }
   }
 });
+// consultar posiçao na fila
+router.get('/showAppointments', async function(req, res){
+  const resultado = await mysql.returnTodayAppointments();
+  if(resultado){
+    res.send(`${resultado}`);
+  }
+  else{
+    res.render('error', { message: 'Paciente ID inválido' });
+  }
+})
 module.exports = router;
