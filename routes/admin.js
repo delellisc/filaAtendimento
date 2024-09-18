@@ -80,18 +80,33 @@ router.post('/newAdmin', async(req, res)=>{
 // cadastra atendimento no banco de dados usando POST
 // *** NÃO NECESSÁRIA ***
 router.post('/newAppointment', function(req, res){
-  const {nome, crm, data} = req.body;
-  if (nome == '' || crm == '' || data == ''){
+  const {crm, data} = req.body;
+  if (crm == '' || data == ''){
     res.render();
   }
   else{
-    let appointment = mysql.insertAppointment(nome, crm, data);
+    let appointment = mysql.insertAppointment(crm, data);
     if (appointment){
       res.send('Atendimento cadastrado com sucesso!');
     }
     else{
       res.send('Não foi possível cadastrar o atendimento');
     }
+  }
+});
+// insere um novo médico
+router.post('/newProfessional', async function (req, res) {
+  const { nome, crm, especialidade } = req.body;
+  if (nome == '' || crm == '' || especialidade == '') {
+      res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
+  } else {
+      const result = await mysql.insertProfessional(nome, especialidade, crm);
+      if (result) {
+          res.send('Médico cadastrado com sucesso!');
+      }
+      else {
+          res.send('Não foi possível cadastrar o médico.');
+      }
   }
 });
 module.exports = router;

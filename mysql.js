@@ -63,7 +63,8 @@ async function returnsPatientId(patientName){
 // função para inserção de um atendimento no banco de dados
 async function insertAppointment(crm, appointmentDate){
     try {
-        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento, horario_inicio, horario_fim) VALUES("${crm}", "${appointmentDate}", "${appointmentStartTime}, "${appointmentEndTime}");`);
+        const [queryResult] = await connection.promise().query(`INSERT INTO atendimento(crm, data_atendimento) VALUES("${crm}", "${appointmentDate}");`);
+        console.log(queryResult);
         return queryResult;
     } 
     catch (error) {
@@ -114,9 +115,11 @@ async function returnSpecialityAppointment(especialidade){
     }
 };
 // insere um médico
-async function insertProfessional(crm, especialidade_id, crm){
+async function insertProfessional(nome, especialidade, crm){
     try {
-        const [query] = await connection.promise().query(`INSERT INTO profissional(crm, especialidade_id, nome) VALUES ("${crm}", "${especialidade_id}" "${nome}");`);
+        const [query1] = await connection.promise().query(`SELECT especialidade_id FROM especialidade WHERE especialidade = '${especialidade}';`);
+        const [query2] = await connection.promise().query(`INSERT INTO profissional(crm, especialidade_id, nome) VALUES ("${crm}", "${query1[0].especialidade_id}", "${nome}");`);
+        console.log(query2, nome, crm);
     } 
     catch (error) {
         console.error(`Erro ao inserir o médico: ${error.stack}`);
@@ -140,10 +143,10 @@ async function insertConsultation(cpf, especialidade){
         const appointments = await returnSpecialityAppointment(especialidade)
         const appointment = appointments[0];
         const [query] = await connection.promise().query(`INSERT INTO consulta(crm, cpf, atendimento_id) VALUES("${appointment.crm}", "${cpf}", "${appointment.atendimento_id}");`);
-        console.log(query)
+        return query;
     }
     catch (error) {
         console.error(`Erro ao inserir uma ocorrência na tabela consulta: ${error.stack}`)
     }
 }
-module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnTodayAppointments, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};
