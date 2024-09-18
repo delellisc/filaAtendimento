@@ -41,6 +41,7 @@ router.post('/:especialidade/removeTopPatient', async(req, res)=>{
   const especialidade = req.params.especialidade;
   try {
     let patient = await mongodb.removeTopPatient(especialidade);
+    await mysql.insertPatient(patient.name, patient.cpf);
     await mysql.insertConsultation(patient.cpf, especialidade);
     res.send(`Paciente removido: ${patient.name}`);
   }
