@@ -97,7 +97,7 @@ async function updateAppointment(appointmentId, crm, appointmentDate){
 // função que retorna atendimentos
 async function returnTodayAppointments(){
     try {
-        const [query] = await connection.promise().query('SELECT * FROM atendimento WHERE DATE(data_atendimento) = CURDATE();');
+        const [query] = await connection.promise().query('SELECT a.atendimento_id, a.crm, e.especialidade FROM atendimento a INNER JOIN profissional p ON a.crm = p.crm INNER JOIN especialidade e ON e.especialidade_id = p.especialidade_id WHERE DATE(a.data_atendimento) = CURDATE();');
         return query;
     }
     catch (error) {
@@ -125,17 +125,28 @@ async function insertProfessional(nome, especialidade, crm){
         console.error(`Erro ao inserir o médico: ${error.stack}`);
     }
 };
-// retorna id do médico a partir do nome
-async function returnsCRM(professionalName){
+// retorna id do médico
+async function returnCRM(){
     try {
-        const crm = await connection.promise().query(`SELECT crm FROM profissional WHERE nome ILIKE "${professionalName}";`);
+        const [crm] = await connection.promise().query(`SELECT crm FROM profissional;`);
         return crm;
     }
     catch (error) {
-        console.error(`Erro ao adquirir id do profissional: ${error.stack}`);
+        console.error(`Erro ao adquirir CRMs: ${error.stack}`);
         throw error;
     }
-}
+};
+// retorna todas as especialidades
+async function returnSpeciality(){
+    try {
+        const [especialidade] = await connection.promise().query(`SELECT especialidade FROM especialidade;`);
+        return especialidade;
+    }
+    catch (error) {
+        console.error(`Erro ao adquirir especialidades: ${error.stack}`);
+        throw error;
+    }
+};
 // função para inserir uma consulta no banco de dados
 // obs.: a consulta deve ser inserida após a sua conclusão e após a inserção do paciente atendido
 async function insertConsultation(cpf, especialidade){
@@ -149,4 +160,4 @@ async function insertConsultation(cpf, especialidade){
         console.error(`Erro ao inserir uma ocorrência na tabela consulta: ${error.stack}`)
     }
 }
-module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnTodayAppointments, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnsCRM};
+module.exports = {connect, disconnect, insertAppointment, updateAppointment, returnSpeciality, returnTodayAppointments, returnsPatientId, insertPatient, insertConsultation, insertProfessional, returnCRM};

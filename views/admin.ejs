@@ -58,9 +58,20 @@
             <div class="card-body">
                 <form action="/admin/newPatient" method="POST">
                     <div class="mb-3">
-                        <label for="especialidade" class="form-label">Especialidade:</label>
-                        <input type="text" class="form-control" id="especialidade" name="especialidade" required>
-                    </div>
+                        <label for="especialidade1" class="form-label">Especialidade:</label>
+                        <select class="form-control" id="especialidade1" name="especialidade" required></select>
+                        <script>
+                            const select1 = document.getElementById('especialidade1');
+                            fetch('/admin/showAppointments')
+                                .then(response => response.json())
+                                .then(data => data.forEach(atendimento => {
+                                    const option = document.createElement('option');
+                                    option.value = atendimento.especialidade;
+                                    option.textContent = atendimento.especialidade;
+                                    select1.appendChild(option);
+                                }))
+                        </script>
+                    </div>                    
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome:</label>
                         <input type="text" class="form-control" id="nome" name="nome" required>
@@ -82,8 +93,19 @@
             <div class="card-body">
                 <form action="/admin/removeTopPatient" method="POST">
                     <div class="mb-3">
-                        <label for="especialidade" class="form-label">Especialidade:</label>
-                        <input type="text" class="form-control" id="especialidade" name="especialidade" required>
+                        <label for="especialidade2" class="form-label">Especialidade:</label>
+                        <select class="form-control" id="especialidade2" name="especialidade" required></select>
+                        <script>
+                            const select2 = document.getElementById('especialidade2');
+                            fetch('/admin/showAppointments')
+                                .then(response => response.json())
+                                .then(data => data.forEach(atendimento => {
+                                    const option = document.createElement('option');
+                                    option.value = atendimento.especialidade;
+                                    option.textContent = atendimento.especialidade;
+                                    select2.appendChild(option);
+                                }))
+                        </script>
                     </div>
                     <button type="submit" class="btn btn-danger">Remover Paciente</button>
                 </form>
@@ -102,8 +124,19 @@
                         <input type="text" class="form-control" id="patientId" name="patientId" required>
                     </div>
                     <div class="mb-3">
-                        <label for="especialidade" class="form-label">Especialidade:</label>
-                        <input type="text" class="form-control" id="especialidade" name="especialidade" required>
+                        <label for="especialidade3" class="form-label">Especialidade:</label>
+                        <select class="form-control" id="especialidade3" name="especialidade" required></select>
+                        <script>
+                            const select3 = document.getElementById('especialidade3');
+                            fetch('/admin/showAppointments')
+                                .then(response => response.json())
+                                .then(data => data.forEach(atendimento => {
+                                    const option = document.createElement('option');
+                                    option.value = atendimento.especialidade;
+                                    option.textContent = atendimento.especialidade;
+                                    select3.appendChild(option);
+                                }))
+                        </script>
                     </div>
                     <button type="submit" class="btn btn-warning">Alterar Status</button>
                 </form>
@@ -144,8 +177,19 @@
                         <input type="text" class="form-control" id="crm" name="crm" required>
                     </div>
                     <div class="mb-3">
-                        <label for="especialidade" class="form-label">Especialidade:</label>
-                        <input type="text" class="form-control" id="especialidade" name="especialidade" required>
+                        <label for="especialidade4" class="form-label">Especialidade:</label>
+                        <select class="form-control" id="especialidade4" name="especialidade" required></select>
+                        <script>
+                            const select4 = document.getElementById('especialidade4');
+                            fetch('/admin/showSpecialities')
+                                .then(response => response.json())
+                                .then(data => data.forEach(atendimento => {
+                                    const option = document.createElement('option');
+                                    option.value = atendimento.especialidade;
+                                    option.textContent = atendimento.especialidade;
+                                    select4.appendChild(option);
+                                }))
+                        </script>
                     </div>
                     <button type="submit" class="btn btn-success">Cadastrar Médico</button>
                 </form>
@@ -159,8 +203,20 @@
             <div class="card-body">
                 <form action="/admin/newAppointment" method="POST">
                     <div class="mb-3">
-                        <label for="crm" class="form-label">CRM do Médico:</label>
-                        <input type="text" class="form-control" id="crm" name="crm" required>
+                        <label for="crm2" class="form-label">CRM do Médico:</label>
+                        <select class="form-control" id="crm2" name="crm" required></select>
+                        <script>
+                            const select5 = document.getElementById('crm2');
+                            fetch('/admin/showCRMs')
+                                .then(response => response.json())
+                                .then(data => data.forEach(medico => {
+                                    console.log(medico)
+                                    const option = document.createElement('option');
+                                    option.value = medico.crm;
+                                    option.textContent = medico.crm;
+                                    select5.appendChild(option);
+                                }))
+                        </script>
                     </div>
                     <div class="mb-3">
                         <label for="data" class="form-label">Data do Atendimento:</label>

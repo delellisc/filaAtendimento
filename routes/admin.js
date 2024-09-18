@@ -42,10 +42,10 @@ router.post('/removeTopPatient', async(req, res)=>{
     let patient = await mongodb.removeTopPatient(especialidade);
     await mysql.insertPatient(patient.name, patient.cpf);
     await mysql.insertConsultation(patient.cpf, especialidade);
-    res.send();
+    res.send(`Paciente removido: ${patient.name}`);
   }
   catch (error) {
-    res.status(500).json({error:error});
+    res.send('Fila esvaziada!');
   }
 });
 // espera por paciente
@@ -107,14 +107,34 @@ router.post('/newProfessional', async function (req, res) {
       }
   }
 });
-// consultar posiçao na fila
+// consultar atendimentos do dia
 router.get('/showAppointments', async function(req, res){
   const resultado = await mysql.returnTodayAppointments();
   if(resultado){
-    res.send(`${resultado}`);
+    res.json(resultado);
   }
   else{
-    res.render('error', { message: 'Paciente ID inválido' });
+    res.render('error', { message: 'Erro ao consultar atendimentos' });
+  }
+});
+// consultar crms disponíveis
+router.get('/showCRMs', async function(req, res){
+  const resultado = await mysql.returnCRM();
+  if(resultado){
+    res.json(resultado);
+  }
+  else{
+    res.render('error', { message: 'Erro ao consultar CRMs' });
+  }
+});
+// consultar crms disponíveis
+router.get('/showSpecialities', async function(req, res){
+  const resultado = await mysql.returnSpeciality();
+  if(resultado){
+    res.json(resultado);
+  }
+  else{
+    res.render('error', { message: 'Erro ao consultar especialidades' });
   }
 })
 module.exports = router;
