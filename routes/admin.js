@@ -14,7 +14,7 @@ router.post('/:especialidade/newPatient', async function(req, res){
   const {nome, cpf} = req.body;
   console.log(nome, cpf)
   if (nome == '' || cpf == '' || especialidade == ''){
-    res.render();
+    res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
   }
   else{
     let resposta = await mongodb.returnQueue(especialidade);
@@ -65,7 +65,7 @@ router.post('/waitForPatient', async(req, res)=>{
 router.post('/newAdmin', async(req, res)=>{
   const {login, senha} = req.body;
   if (login == '' || senha == ''){
-    res.render();
+    res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
   }
   else{
     try {
@@ -81,7 +81,7 @@ router.post('/newAdmin', async(req, res)=>{
 router.post('/newAppointment', function(req, res){
   const {crm, data} = req.body;
   if (crm == '' || data == ''){
-    res.render();
+    res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
   }
   else{
     let appointment = mysql.insertAppointment(crm, data);
@@ -95,6 +95,7 @@ router.post('/newAppointment', function(req, res){
 });
 // insere um novo médico
 router.post('/newProfessional', async function (req, res) {
+  console.log('sou lindo')
   const { nome, crm, especialidade } = req.body;
   if (nome == '' || crm == '' || especialidade == '') {
       res.render('error', { message: 'Todos os campos devem ser preenchidos!' });
