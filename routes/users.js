@@ -34,7 +34,7 @@ router.get('/:especialidade/:pacienteId', async function(req, res) {
   }
 });
 // login
-router.get('/login', async(req, res)=>{
+router.post('/login', async(req, res)=>{
   const {login, senha} = req.body;
   if (login == '' || senha == ''){
     res.render();
