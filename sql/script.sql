@@ -70,9 +70,9 @@ INSERT INTO atendimento (crm, data_atendimento) VALUES
 ('CRM003', '2024-09-17'),
 ('CRM004', '2024-09-17'),
 ('CRM006', '2024-09-17'),
-('CRM007', '2024-09-17'),
+('CRM007', '2024-09-18'),
 ('CRM008', '2024-09-18'),
-('CRM009', '2024-09-19'),
+('CRM009', '2024-09-18'),
 ('CRM010', '2024-09-19');
 
 INSERT INTO consulta (crm, cpf, atendimento_id, descricao) VALUES 

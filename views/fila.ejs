@@ -7,6 +7,19 @@
   <body>
     <h1><%= title %></h1>
     <p id="teste">Fila começa aqui</p>
-    
+    <script>
+      function printQueue(fila){
+          /* console.log(fila); */
+          let start = fila.start;
+          while (start != null){
+              /* console.log(start.name); */
+              document.getElementById("teste").innerText += `\nNome: ${start.name} | CPF: ${start.cpf} | Posição: ${start.position}`;
+              start = start.next;
+          };
+      }
+      fetch('/admin/Neurologia/getQueue')
+        .then(response => response.json())
+        .then(data => printQueue(data));
+    </script>
   </body>
 </html>
